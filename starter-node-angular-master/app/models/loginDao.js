@@ -1,10 +1,10 @@
 var MongoDBClient = require('mongodb').MongoClient;
-var MongoDBUtils = require('./db');
+var MongoDBUtils = require('./dbConfig');
 
-function TestDao(url) {
+function loginDAO(url) {
     this.url = url;
 }
-TestDao.prototype = {
+loginDAO.prototype = {
     init: function(callback) {
         var self = this;
         MongoDBUtils.getOrCreateDatabase(self.url, function(err, result) {
@@ -17,4 +17,4 @@ TestDao.prototype = {
         })
     }
 }
-module.exports = TestDao;
+module.exports = loginDAO;

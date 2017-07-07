@@ -3,13 +3,18 @@ var MongoDBUtils = {
     getOrCreateDatabase: function(url, callback) {
         MongoDBClient.connect(url, function(err, db) {
             if (err) throw err;
-            console.log(db);
-            db.createCollection("customer", function(err, res) {
+          
+            tabel=function(tabelName){
+            db.createCollection(tabelName, function(err, res) {
                 if (err) throw err;
-                console.log("Table created!" + "customer");
+                console.log("Table created!" + tabelName);
                 callback(null, "created");
-                db.close();
+                
             })
+}
+tabel("login");
+tabel("questionAndAnswer");
+tabel("admin");
 
         });
     }
