@@ -10,9 +10,9 @@ console.log(loginReq)
   if(loginReq.userId=="admin"&&loginReq.pwd=="12345"){
    res.sendfile('./public/views/home.html');
   }else if(loginReq.userId=="questions"&&loginReq.pwd=="12345"){
-    res.sendfile('./public/views/questions.html');
+    res.send('/question');
   }else if(loginReq.userId=="user"&&loginReq.pwd=="12345"){
-   res.send('/user')
+   res.send('/user');
   }
  }
 }
