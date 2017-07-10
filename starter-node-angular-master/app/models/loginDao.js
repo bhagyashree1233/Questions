@@ -12,6 +12,7 @@ loginDAO.prototype = {
                 console.log(err)
                 callback(err, "");
             }
+            console.log('Hi  in loginDAO')
             callback(null, result);
 
         })

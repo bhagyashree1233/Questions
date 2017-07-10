@@ -3,6 +3,45 @@ function questionDao(url){
 this.url=url;
 }
 questionDao.prototype={
+addQuestions:function(questions,callback){
+var self=this;
+MongoDBClient.connect(self.url, function(err, db) {
+if (err){callback(err,null);}else{
+db.collection("questionAndAnswer").insert(questions,function(err,result){
+    if(err){
+
+        console.log(err);
+        callback(err)
+    }
+    db.close();
+    console.log(result);
+    callback(null,result)
+})
 
 }
+
+})
+},
+findQuestions:function(callback){
+    var self=this;
+MongoDBClient.connect(self.url, function(err, db) {
+if (err){callback(err,null);}else{
+db.collection("questionAndAnswer").find({}).toArray(function(err, result) {
+    if(err){
+
+        
+        callback(err)
+    }
+    console.log(result);
+     db.close();
+    callback(null,result)
+   
+    
+    
+})
+}
+})
+}}
+
+
 module.exports=questionDao;

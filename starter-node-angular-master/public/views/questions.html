@@ -1,18 +1,40 @@
 
 <div class="container">
-  <div class="form-inline" >
+ 
     <div class="form-group Ques">
-      <label for="text">Questions:</label>
-      <input type="text" class="form-control" id="email" placeholder="Enter Questions">
-      
+      <label for="text">
+        
+      </label>
+      <div class="form-Group">
+      Question:<button class="btn Success" ng-click="addOptions()" >Add Options+</button>
+        <button class="btn Success" style="margin-left:60vw"ng-click="addMoreOptions()">Add More Options</button>
+        <input type="text" class="form-control"  ng-model="ques.question"placeholder="Enter Questions">
+      </div>
     </div>
-    <button class="btn Success" ng-click="addOptions()" >Add Options+</button>
-    </div>
-<div class="form-inline Opp"  ng-show="addOpp">
+    
+    
+<div class=" Opp" ng-show="addOpp">
     <div class="form-group">
-      <label for="text">Options:</label>
-      <input type="text" class="form-control" id="email" placeholder="Enter Options">
       
+      <label for="text">
+        
+      </label>
+      <label>Select right Ans</label>
+      <div class="form-inline">
+    <input type="radio" value="">  <input type="text" class="form-control" ng-model="ques.ans[0].opt"  placeholder="Enter Options">
+   </div>
     </div>
-    <button class="btn Success" ng-click="addMoreOptions()">Add More +</button>
+    
+    
     </div>
+<button class="btn Success" ng-click="next()">Next Question</button>
+
+
+</div>
+<div ng-repeat=" ques in quesArr">Questions:{{$index+1}}{{ques.question}}
+<p>Options:</p> <div ng-repeat= "an in ques.ans">{{$index+1}}{{an.opt}}</div>
+</div>
+<div ng-repeat=" ques in viewQuestion">Questions:{{$index+1}}{{ques.question}}
+<p>Options:</p> <div ng-repeat= "an in ques.ans">{{$index+1}}{{an.opt}}</div>
+</div>
+</div>
