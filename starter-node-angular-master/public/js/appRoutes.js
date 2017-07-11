@@ -10,6 +10,12 @@ console.log('Hello');
 		.when('/question', {
 			templateUrl: 'views/questions.html',
 			controller:"questionController"
-		});
+		})
+		.when('/user', {
+			templateUrl: 'views/user.html',
+			controller:"userController"
+		})
+		
+		;
 		$locationProvider.html5Mode(true);
 });

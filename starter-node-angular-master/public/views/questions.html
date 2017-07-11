@@ -21,7 +21,7 @@
       </label>
       <label>Select right Ans</label>
       <div class="form-inline">
-    <input type="radio" value="">  <input type="text" class="form-control" ng-model="ques.ans[0].opt"  placeholder="Enter Options">
+    <input type="radio" ng-model="ques.rightAns" value={{an.opt}}>  <input type="text" class="form-control" ng-model="ques.ans[0].opt"  placeholder="Enter Options">
    </div>
     </div>
     
@@ -34,7 +34,6 @@
 <div ng-repeat=" ques in quesArr">Questions:{{$index+1}}{{ques.question}}
 <p>Options:</p> <div ng-repeat= "an in ques.ans">{{$index+1}}{{an.opt}}</div>
 </div>
-<div ng-repeat=" ques in viewQuestion">Questions:{{$index+1}}{{ques.question}}
-<p>Options:</p> <div ng-repeat= "an in ques.ans">{{$index+1}}{{an.opt}}</div>
+
 </div>
 </div>
