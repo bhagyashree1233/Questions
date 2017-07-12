@@ -4,14 +4,21 @@ this.userDao=userDao;
 }
 userCtrl.prototype={
     
- addAnswers:function(callback){
+ addUserAnswers:function(req,res){
   var self = this;
-var questions=req.body;
-console.log(questions)
-self.questionDao.addQuestions(questions,function(err,result){
+var userAnswer=req.body;
+self.userDao.addUserAns(userAnswer,function(err,result){
     console.log(result.insertedIds)
 });
  
+ },
+ findAllUserAnswers:function(req,res){
+ var self = this;
+ console.log('Hi have entered controller')
+ self.userDao.findAllUserAnswer(function(err,result){
+      console.log(result)
+      res.send(result)
+ });
  }
 }
 module.exports=userCtrl;

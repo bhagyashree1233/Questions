@@ -1,39 +1,52 @@
-
 <div class="container">
- 
-    <div class="form-group Ques">
-      <label for="text">
-        
-      </label>
-      <div class="form-Group">
-      Question:<button class="btn Success" ng-click="addOptions()" >Add Options+</button>
-        <button class="btn Success" style="margin-left:60vw"ng-click="addMoreOptions()">Add More Options</button>
-        <input type="text" class="form-control"  ng-model="ques.question"placeholder="Enter Questions">
+    <div class="form-inline quesType">
+        <label for="text">Question Type:</label>
+        <input type="text" class="form-control" ng-model="ques.questionType" placeholder="Enter Question Type">
+        <button type="submit" class="btn btn-default" ng-click="questionType()">Submit</button>
+    </div>
+    <div class="form-group selectQuestionType">
+      <label for="sel1">Select Question Type:</label>
+      <select class="form-control" id="sel1" ng-model="questionType">
+        <option ng-repeat="questTyp in quesType">{{questTyp}}</option>
+      </select>
       </div>
+    <div class="form-Group questions " >
+        <div class="row question">
+            <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6">
+               <b> Questions:</b>
+            </div>
+            <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3">
+                <button class="btn Success bttn" ng-click="addOptions()">Add Options+</button>
+            </div>
+            <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3">
+                <button class="btn Success bttn" ng-click="addMoreOptions()">Add More Options</button>
+            </div>
+        </div>
+        <input type="text" class="form-control" ng-model="ques.quest" placeholder="Enter Questions">
     </div>
-    
-    
-<div class=" Opp" ng-show="addOpp">
-    <div class="form-group">
-      
-      <label for="text">
-        
-      </label>
-      <label>Select right Ans</label>
-      <div class="form-inline">
-    <input type="radio" ng-model="ques.rightAns" value={{an.opt}}>  <input type="text" class="form-control" ng-model="ques.ans[0].opt"  placeholder="Enter Options">
-   </div>
-    </div>
-    
-    
-    </div>
-<button class="btn Success" ng-click="next()">Next Question</button>
 
+
+
+    <div class=" Opp" ng-show="addOpp">
+        <div class="form-group selectRightAns">
+            <label>Select right Ans</label>
+            <div class="form-inline">
+                <input type="radio" ng-model="ques.rightAns " value={{ques.ans[0].opt}}> <input type="text" class="form-control" ng-model="ques.ans[0].opt" placeholder="Enter Options">
+            </div>
+        </div>
+
+
+    </div>
+    <div id="bttn">
+    <button class="btn Success" ng-click="next()">Next Question</button>
+   <button class="btn Success" ng-click="submitQuestions()">Submit</button>
+</div>
+
+
+    <!--<ul style="margin:auto" ng-repeat=" ques in questions">{{$index+1}}>{{ques.questions}}
+        <div ng-repeat="ans in ques.options">{{$index+1}}){{ans.opt}}</div>
+    </ul>-->
 
 </div>
-<div ng-repeat=" ques in quesArr">Questions:{{$index+1}}{{ques.question}}
-<p>Options:</p> <div ng-repeat= "an in ques.ans">{{$index+1}}{{an.opt}}</div>
-</div>
-
 </div>
 </div>

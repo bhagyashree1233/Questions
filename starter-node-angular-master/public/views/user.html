@@ -1,13 +1,30 @@
-<div class="container">
-   <ul>
+<!--<div class="container">
+    <ul>
         <div ng-repeat="ques in viewQuestion">
-          {{$index+1}}  {{ques.question}}
-            <div ng-repeat="an in ques.ans" >
-             <div class="radio">
-  <label><input type="radio" ng-model="ques.userAnswer" value={{an.opt}}>{{$index+1}}{{an.opt}}</label>
-</div> 
+            {{$index+1}} {{ques.question}}
+            <div ng-repeat="an in ques.ans">
+                <div class="radio">
+                    <label><input type="radio" ng-model="ques.userAnswer" value={{an.opt}}>{{$index+1}}{{an.opt}}</label>
                 </div>
+            </div>
         </div>
-         <button type="submit" class="btn btn-default" ng-click="submit()">Submit</button>
-    </ul>  
+        <button type="submit" class="btn btn-default" ng-click="submit()">Submit</button>
+    </ul>
+</div>-->
+<div class="container">
+  <div class="panel-group" id="accordion" >
+     <div class="panel panel-default" ng-repeat="question in viewQuestion">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">{{question.questionType}}</a>
+        </h4>
+      </div>
+      <div id="collapse1" class="panel-collapse collapse" ng-repeat="ques in question.questions">
+        <div class="panel-body" >{{ques.questions}}</div>
+      </div>
+    </div>
+    </div>
+    
+   
 </div>
+    

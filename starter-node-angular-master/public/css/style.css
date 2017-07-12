@@ -1,1 +1,38 @@
 body { padding-top:30px; }
+.quesType{
+    width:50%;
+    margin:auto;
+    margin-top:5vh;
+    margin-bottom:5vh;
+}
+.selectQuestionType{
+    width:50%;
+    margin:auto;
+    margin-top:5vh;
+    margin-bottom:5vh;
+}
+.questions{
+    width:70%; 
+    margin:auto;
+    margin-top:5vh;
+    margin-bottom:5vh;
+}
+.question{
+ margin-bottom:1vh;
+}
+#bttn{
+ width:40%; 
+ margin:auto;   
+}
+.selectRightAns{
+ width:70%;
+ margin:auto; 
+ margin-top:2vh;
+ margin-bottom:2vh; 
+}
+.Op{
+ width:70%;
+ margin:auto; 
+ margin-top:2vh;
+ margin-bottom:2vh;    
+}

@@ -15,7 +15,10 @@ console.log('Hello');
 			templateUrl: 'views/user.html',
 			controller:"userController"
 		})
-		
+		.when('/admin',{
+			templateUrl: 'views/admin.html',
+			controller:"adminController"
+		})
 		;
 		$locationProvider.html5Mode(true);
 });

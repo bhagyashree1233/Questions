@@ -1,0 +1,20 @@
+<div class="container">
+    <table class="table">
+    <thead>
+      <tr>
+        <th>Total Questions:</th>
+        <th>Total Correct Answers:</th>
+        <th>UserId:</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="ques in viewQuestion">
+        <td>{{ques.totalQuestions}}</td>
+        <td>{{ques.userCorrectAnser}}</td>
+        <td>{{ques.userId}}</td>
+
+      </tr>
+      </tbody>
+       </table>
+    
+</div>
