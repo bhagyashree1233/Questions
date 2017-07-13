@@ -11,20 +11,32 @@
         <button type="submit" class="btn btn-default" ng-click="submit()">Submit</button>
     </ul>
 </div>-->
-<div class="container">
+<!--<div class="container">
   <div class="panel-group" id="accordion" >
      <div class="panel panel-default" ng-repeat="question in viewQuestion">
-      <div class="panel-heading">
+      <div class="panel-heading" ng-repeat="ques in question.questions">
         <h4 class="panel-title">
           <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">{{question.questionType}}</a>
         </h4>
       </div>
-      <div id="collapse1" class="panel-collapse collapse" ng-repeat="ques in question.questions">
+      <div id="collapse1" class="panel-collapse collapse" >
         <div class="panel-body" >{{ques.questions}}</div>
       </div>
     </div>
     </div>
-    
-   
+</div>-->
+
+
+<div class="container">
+  <select class="form-control" id="sel1" ng-model="simpleSelect">
+        <option ng-repeat="question in listQuestionType" ng-model="questionType">{{question.type}}</option>
+      </select>
+<div ng-repeat="question in viewQuestion" >
+    <ul ng-repeat="i in question.questions"ng-if="question.questionType==simpleSelect">
+      <li >{{i.questions}}</li>
+       <li ng-repeat=" option in i.options" ><input type="radio"ng-value="option.opt" ng-model="i.userAnswer">{{option.opt}} </li>
+    </ul>
+  </div>
+  <button type="button" class="btn btn-success" ng-click="submit()">Submit</button>
 </div>
     

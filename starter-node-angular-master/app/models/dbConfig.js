@@ -19,7 +19,7 @@ var MongoDBUtils = {
             tabel("login");
             tabel("questionAndAnswer");
             tabel("admin");
-
+            tabel("questionType");
         });
     }
 }

@@ -26,6 +26,8 @@ module.exports = function(app) {
     app.post('/findQuestions', questionCtrl.findQuestions.bind(questionCtrl))
     app.post('/addUserAnswers', userCtrl.addUserAnswers.bind(userCtrl))
     app.post('/findAllUserAnswers', userCtrl.findAllUserAnswers.bind(userCtrl))
+    app.post('/addQuestionType', questionCtrl.addQuestionType.bind(questionCtrl))
+    app.post('/findQuestionType', questionCtrl.findQuestionType.bind(questionCtrl))
     app.get('*', function(req, res) {
         res.sendfile('./public/index.html');
     });

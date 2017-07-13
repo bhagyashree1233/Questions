@@ -2,7 +2,8 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
     $scope.addOpp = false;
     $scope.questionToSend = {};
     $scope.quesType = [];
-    $scope.questionType='';
+    $scope.questionTyp={};
+    $scope.listQuestionType=[];
     $scope.questions = [];
     $scope.viewQuestion = []
     $scope.ques={};
@@ -24,8 +25,14 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         //myElements.append("<div class='form-group'><label for='text'>Options:</label><input type='text'class='form-control' id='email' placeholder='Enter Options'></div><button class='btn Success' ng-click='addMoreOptions()'>Add More +</button> </div>");
     }
     $scope.submitQuestions = function() {
+        $scope.questions.push(angular.copy({
+            questions: $scope.ques.quest,
+            options: $scope.ques.ans,
+            rightAnswer:$scope.ques.rightAns
+        }));
         $scope.questionToSend['questions'] = $scope.questions;
        $scope.questionToSend['questionType']=$scope.questionType;
+
        console.log($scope.questionToSend);
         var promise = serviceDB.toServer($scope.questionToSend, '/addQuestions')
          promise.then(function(res) {
@@ -68,9 +75,29 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
     }
     $scope.findAllquest();
     $scope.questionType = function() {
-        console.log($scope.ques.questionType);
-        $scope.quesType.push($scope.ques.questionType);
-        $scope.ques.questionType='';
-        console.log($scope.quesType);
+        console.log($scope.questionTyp.type);
+        $scope.quesType.push($scope.questionTyp.type);
+        var promise = serviceDB.toServer($scope.questionTyp, '/addQuestionType')
+        promise.then(function(res) {
+            console.log(res.data);
+            $scope.viewQuestion = res.data
+            $scope.ques = {}
+        }, function(err) {
+
+        })
+        $scope.questionTyp.type='';
+        console.log($scope.questionTyp);
     }
+    $scope.findAllQuestionType=function(){
+      var promise = serviceDB.toServer({}, '/findQuestionType')
+        promise.then(function(res) {
+            console.log(res.data);
+            $scope.listQuestionType = res.data
+            $scope.ques = {}
+        }, function(err) {
+
+        })  
+    }
+    $scope.findAllQuestionType();
+
 })

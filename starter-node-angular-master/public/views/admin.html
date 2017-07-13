@@ -5,14 +5,15 @@
         <th>Total Questions:</th>
         <th>Total Correct Answers:</th>
         <th>UserId:</th>
+        <th>Question Type</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="ques in viewQuestion">
-        <td>{{ques.totalQuestions}}</td>
-        <td>{{ques.userCorrectAnser}}</td>
+        <td>{{ques.question}}</td>
+        <td>{{ques.ansCount}}</td>
         <td>{{ques.userId}}</td>
-
+      <td>{{ques.type}}</td>
       </tr>
       </tbody>
        </table>
