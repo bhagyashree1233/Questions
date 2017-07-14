@@ -5,7 +5,21 @@ angular.module('userCtrl', []).controller('userController', function($scope, ser
     $scope.user = {};
     $scope.questionType='';
     $scope.user.questions=[];
+    $scope.currentPage=0;
+    $scope.pageSize=2;
+    $scope.numberOfPages=2;
     console.log('Hi am in userCtrl');
+
+     $scope.findperticularquest = function() {
+        var promise = serviceDB.toServer({}, '/findPerticularQuestion')
+        promise.then(function(res) {
+            console.log(res.data);
+            $scope.viewQuestion = res.data
+            $scope.ques = {}
+        }, function(err) {
+        })
+    }
+
     $scope.findAllquest = function() {
         var promise = serviceDB.toServer({}, '/findQuestions')
         promise.then(function(res) {
@@ -13,9 +27,7 @@ angular.module('userCtrl', []).controller('userController', function($scope, ser
             $scope.viewQuestion = res.data
             $scope.ques = {}
         }, function(err) {
-
         })
-
     }
     var ansCount = 0
     $scope.findAllquest()

@@ -24,8 +24,10 @@ module.exports = function(app) {
     app.post('/login', loginCtrl.logMe.bind(loginCtrl))
     app.post('/addQuestions', questionCtrl.addQuestions.bind(questionCtrl))
     app.post('/findQuestions', questionCtrl.findQuestions.bind(questionCtrl))
+    app.post('/findPerticularQuestion', questionCtrl.findPertTypeQuestion.bind(questionCtrl))
     app.post('/addUserAnswers', userCtrl.addUserAnswers.bind(userCtrl))
     app.post('/findAllUserAnswers', userCtrl.findAllUserAnswers.bind(userCtrl))
+
     app.post('/addQuestionType', questionCtrl.addQuestionType.bind(questionCtrl))
     app.post('/findQuestionType', questionCtrl.findQuestionType.bind(questionCtrl))
     app.get('*', function(req, res) {

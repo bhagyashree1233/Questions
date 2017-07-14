@@ -6,7 +6,7 @@
     </div>
     <div class="form-group selectQuestionType">
       <label for="sel1">Select Question Type:</label>
-      <select class="form-control" id="sel1" ng-model="questionType">
+      <select class="form-control" id="sel1" ng-model="questType" ng-click="findperticularquest()">
         <option ng-repeat="questTyp in listQuestionType">{{questTyp.type}}</option>
       </select>
       </div>

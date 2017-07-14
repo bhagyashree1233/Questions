@@ -36,6 +36,12 @@ self.questionDao.findAllQuestionTyp(function(err,result){
   self.questionDao.findQuestions(function(err,result){
     res.send(result)
 });   
+ },findPertTypeQuestion:function(req,res){
+      var self = this;
+      var questionType=req.body;
+  self.questionDao.findPertTypeQuestn(questionType,function(err,result){
+    res.send(result)
+});  
  }
 
 }

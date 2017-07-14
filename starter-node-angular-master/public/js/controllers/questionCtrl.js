@@ -7,6 +7,7 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
     $scope.questions = [];
     $scope.viewQuestion = []
     $scope.ques={};
+    $scope.questType='';
     console.log('Hi am in Question Controller')
     $scope.addOptions = function() {
         $scope.addOpp = true;
@@ -25,22 +26,28 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         //myElements.append("<div class='form-group'><label for='text'>Options:</label><input type='text'class='form-control' id='email' placeholder='Enter Options'></div><button class='btn Success' ng-click='addMoreOptions()'>Add More +</button> </div>");
     }
     $scope.submitQuestions = function() {
+         console.log($scope.questionToSend);
         $scope.questions.push(angular.copy({
             questions: $scope.ques.quest,
             options: $scope.ques.ans,
             rightAnswer:$scope.ques.rightAns
         }));
+        if($scope.questionToSend._id!=undefined){
+            console.log();
+           console.log($scope.questionToSend)
+        }else{
         $scope.questionToSend['questions'] = $scope.questions;
-       $scope.questionToSend['questionType']=$scope.questionType;
-
-       console.log($scope.questionToSend);
-        var promise = serviceDB.toServer($scope.questionToSend, '/addQuestions')
+       $scope.questionToSend['questionType']=$scope.questType;
+       var promise = serviceDB.toServer($scope.questionToSend, '/addQuestions')
          promise.then(function(res) {
              console.log(res.data);
              $scope.ques = {}
          }, function(err) {
 
          })
+        }
+       
+        
     }
     $scope.next = function() {
         console.log($scope.ques);
@@ -89,6 +96,7 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         console.log($scope.questionTyp);
     }
     $scope.findAllQuestionType=function(){
+
       var promise = serviceDB.toServer({}, '/findQuestionType')
         promise.then(function(res) {
             console.log(res.data);
@@ -97,6 +105,20 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         }, function(err) {
 
         })  
+    }
+     $scope.findperticularquest = function() {
+         
+         console.log($scope.questType);
+         $scope.questionTyp.questionType=$scope.questType;
+        var promise = serviceDB.toServer($scope.questionTyp, '/findPerticularQuestion')
+        promise.then(function(res) {
+            if(res.data.length>0){
+            $scope.questionToSend = res.data[0];
+            console.log($scope.questionToSend);
+            $scope.ques = {}
+            }
+        }, function(err) {
+        })
     }
     $scope.findAllQuestionType();
 

@@ -89,6 +89,27 @@ questionDao.prototype = {
                 })
             }
         })
+    },findPertTypeQuestn: function(questionType,callback) {
+         var self = this;
+        MongoDBClient.connect(self.url, function(err, db) {
+            if (err) {
+                callback(err, null);
+            } else {
+                db.collection("questionAndAnswer").find(questionType).toArray(function(err, result) {
+                    if (err) {
+
+
+                        callback(err)
+                    }
+                    console.log(result);
+                    db.close();
+                    callback(null, result)
+
+
+
+                })
+            }
+        })
     }
 }
 

@@ -29,14 +29,21 @@
 
 <div class="container">
   <select class="form-control" id="sel1" ng-model="simpleSelect">
-        <option ng-repeat="question in listQuestionType" ng-model="questionType">{{question.type}}</option>
+        <option ng-repeat="question in listQuestionType " ng-model="questionType">{{question.type}}</option>
       </select>
 <div ng-repeat="question in viewQuestion" >
-    <ul ng-repeat="i in question.questions"ng-if="question.questionType==simpleSelect">
-      <li >{{i.questions}}</li>
-       <li ng-repeat=" option in i.options" ><input type="radio"ng-value="option.opt" ng-model="i.userAnswer">{{option.opt}} </li>
-    </ul>
+    <div ng-repeat="i in question.questions"ng-if="question.questionType==simpleSelect">
+      <div>{{i.questions}}</div>
+       <div ng-repeat=" option in i.options" ><input type="radio"ng-value="option.opt" ng-model="i.userAnswer">{{option.opt}} </div>
+    </div>
   </div>
+   <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+        Previous
+    </button>
+    {{currentPage+1}}/{{numberOfPages}}
+    <button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1">
+        Next
+    </button>
   <button type="button" class="btn btn-success" ng-click="submit()">Submit</button>
 </div>
     
