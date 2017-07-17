@@ -12,6 +12,21 @@ self.questionDao.addQuestions(questions,function(err,result){
     console.log(result.insertedIds)
 });
  
+ },editQuestionType:function(req,res){
+ var self = this;
+var questions=req.body;
+console.log(questions)
+self.questionDao.editQuestions(questions,function(err,result){
+    console.log(result.insertedIds)
+});
+ 
+ },deleteQuestion:function(req,res){
+ var self = this;
+var questions=req.body;
+console.log(questions)
+self.questionDao.deleteQuestio(questions,function(err,result){
+    
+})
  },
  addQuestionType:function(req,res){
  var self = this;

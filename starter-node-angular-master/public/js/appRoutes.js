@@ -4,7 +4,7 @@ console.log('Hello');
 	
 	$routeProvider
 	.when('/', {
-			templateUrl: 'views/login.html',
+			templateUrl: 'views/menuQuestion.html',
 			controller:"loginController"
 		})
 		.when('/question', {

@@ -1,22 +1,32 @@
 angular.module('qstCtrl', []).controller('questionController', function($scope, $compile, serviceDB) {
-    $scope.addOpp = false;
+    $scope.addOpp = true;
     $scope.questionToSend = {};
+    $scope.questionToSend.questions=[];
     $scope.quesType = [];
     $scope.questionTyp={};
     $scope.listQuestionType=[];
     $scope.questions = [];
-    $scope.viewQuestion = []
+    $scope.viewQuestion =[]
     $scope.ques={};
+    $scope.ques.ans=[];
     $scope.questType='';
+     var questionToSend={};
+     $scope.questionView={};
+    questionToSend.oldQuestion={};
+    questionToSend.newQuestions={};
+    $scope.deleteQuestion={};
+    $scope.deleteQuestion.questions=[];
+    var questionId;
+    var Count = 0;
+    var html;
+    var newElement; 
     console.log('Hi am in Question Controller')
     $scope.addOptions = function() {
         $scope.addOpp = true;
         console.log('add Opp');
         Count = 0
     }
-    var Count = 0;
-    var html;
-    var newElement;
+    
     $scope.addMoreOptions = function() {
         Count++;
         console.log('add More Opp');
@@ -25,18 +35,36 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         myElements.append($compile(html)($scope))
         //myElements.append("<div class='form-group'><label for='text'>Options:</label><input type='text'class='form-control' id='email' placeholder='Enter Options'></div><button class='btn Success' ng-click='addMoreOptions()'>Add More +</button> </div>");
     }
+   $scope.removeOptions=function(){
+       newElement = angular.element(document.querySelector('.Op'));
+        newElement.remove();
+   }
     $scope.submitQuestions = function() {
-         console.log($scope.questionToSend);
-        $scope.questions.push(angular.copy({
+       
+        if($scope.questionToSend==undefined||$scope.questionToSend==""){
+          return false;
+        }else if($scope.questionToSend.questions==undefined||$scope.questionToSend.questions==""){
+            return false;
+        }
+         $scope.questionToSend['questionType']=$scope.questType;
+        $scope.questionToSend.questions.push(angular.copy({
             questions: $scope.ques.quest,
             options: $scope.ques.ans,
             rightAnswer:$scope.ques.rightAns
         }));
-        if($scope.questionToSend._id!=undefined){
-            console.log();
-           console.log($scope.questionToSend)
+        if(questionId!=undefined){
+              questionToSend.oldQuestion.questionType  = $scope.questType;
+            questionToSend.newQuestions.$each=$scope.questionToSend.questions;
+            console.log(questionToSend)
+           var promise = serviceDB.toServer(questionToSend, '/editQuestions')
+         promise.then(function(res) {
+             console.log(res.data);
+             $scope.ques = {}
+         }, function(err) {
+
+         })
+           
         }else{
-        $scope.questionToSend['questions'] = $scope.questions;
        $scope.questionToSend['questionType']=$scope.questType;
        var promise = serviceDB.toServer($scope.questionToSend, '/addQuestions')
          promise.then(function(res) {
@@ -51,7 +79,7 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
     }
     $scope.next = function() {
         console.log($scope.ques);
-        $scope.questions.push(angular.copy({
+        $scope.questionToSend.questions.push(angular.copy({
             questions: $scope.ques.quest,
             options: $scope.ques.ans,
             rightAnswer:$scope.ques.rightAns
@@ -106,20 +134,38 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
 
         })  
     }
+    
      $scope.findperticularquest = function() {
-         
          console.log($scope.questType);
          $scope.questionTyp.questionType=$scope.questType;
         var promise = serviceDB.toServer($scope.questionTyp, '/findPerticularQuestion')
         promise.then(function(res) {
             if(res.data.length>0){
-            $scope.questionToSend = res.data[0];
-            console.log($scope.questionToSend);
+           questionId= res.data[0]._id;
+          $scope.questionView=res.data[0];
             $scope.ques = {}
             }
         }, function(err) {
         })
     }
-    $scope.findAllQuestionType();
+    $scope.editQues=function(ques){
+        console.log(ques);
+     $scope.ques.quest=ques.questions;
+     
+    $scope.ques.ans=ques.options;
+     
+}
+$scope.deleteQues=function(ques){
+console.log(ques)
+$scope.deleteQuestion.questions=ques
+console.log($scope.deleteQuestion)
+ var promise = serviceDB.toServer($scope.deleteQues, '/deleteQuestion')
+         promise.then(function(res) {
+             console.log(res.data);
+             $scope.ques = {}
+         }, function(err) {
 
+         })
+}
+    $scope.findAllQuestionType();
 })

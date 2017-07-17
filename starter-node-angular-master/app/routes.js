@@ -27,9 +27,10 @@ module.exports = function(app) {
     app.post('/findPerticularQuestion', questionCtrl.findPertTypeQuestion.bind(questionCtrl))
     app.post('/addUserAnswers', userCtrl.addUserAnswers.bind(userCtrl))
     app.post('/findAllUserAnswers', userCtrl.findAllUserAnswers.bind(userCtrl))
-
     app.post('/addQuestionType', questionCtrl.addQuestionType.bind(questionCtrl))
     app.post('/findQuestionType', questionCtrl.findQuestionType.bind(questionCtrl))
+    app.post('/editQuestions',questionCtrl.editQuestionType.bind(questionCtrl))
+    app.post('/deleteQuestion',questionCtrl.deleteQuestion.bind(questionCtrl))
     app.get('*', function(req, res) {
         res.sendfile('./public/index.html');
     });
