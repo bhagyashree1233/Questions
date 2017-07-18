@@ -48,11 +48,12 @@
 
 
    <ul style="margin:auto" ng-repeat=" ques in questionView.questions">{{$index+1}}>{{ques.questions}}
-           <button class="btn Success" ng-click="editQues(ques)">Edit</button>
-<button class="btn Success" ng-click="deleteQues(ques)">delete</button>
+          <!-- <button class="btn Success" ng-click="editQues(ques)">Edit</button>
+<button class="btn Success" ng-click="deleteQues(ques)">delete</button>-->
         <div ng-repeat="ans in ques.options">{{$index+1}}){{ans.opt}}</div>
     </ul>
 
 </div>
 </div>
+ <button type="button" class="btn btn-primary">Primary</button>
 </div>

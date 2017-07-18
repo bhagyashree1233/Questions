@@ -28,9 +28,12 @@
 
 
 <div class="container">
-  <select class="form-control" id="sel1" ng-model="simpleSelect"ng-click="findperticularquest()">
-        <option ng-repeat="question in listQuestionType " ng-model="questionType">{{question.type}}</option>
+  <select class="form-control" id="sel1" ng-model="simpleSelect">
+        <option  ng-model="questionType"ng-repeat="question in listQuestionType ">{{question.type}}</option>
       </select>
+<div ng-repeat="question in listQuestionType " >
+<div    ng-model="simpleSelect" ng-click="findperticularquest()">{{question.type}}</div>
+</div>
 <div ng-repeat="quest in viewQuestion.questions" >  
     <div >
       <div>{{quest.questions}}</div>

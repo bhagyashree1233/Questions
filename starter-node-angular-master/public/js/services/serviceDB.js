@@ -1,6 +1,7 @@
 angular.module('DBservice', [])
 
     .factory('serviceDB', function($http, $q, $rootScope, $location) {
+        var user = {};
 
         function toServer(doc2send, Url) {
 
@@ -36,6 +37,13 @@ angular.module('DBservice', [])
         }
 
         return {
+            setData :function(data){
+                user.data=data;
+                console.log(user.data)
+            },
+            getData:function(){
+                return user.data
+            },
             toServer: toServer
         }
     })

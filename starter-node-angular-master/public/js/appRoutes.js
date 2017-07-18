@@ -4,7 +4,7 @@ console.log('Hello');
 	
 	$routeProvider
 	.when('/', {
-			templateUrl: 'views/menuQuestion.html',
+			templateUrl: 'views/login.html',
 			controller:"loginController"
 		})
 		.when('/question', {
@@ -18,6 +18,10 @@ console.log('Hello');
 		.when('/admin',{
 			templateUrl: 'views/admin.html',
 			controller:"adminController"
+		})
+		.when('/question',{
+			templateUrl: 'views/question.html',
+			controller:"userController"
 		})
 		;
 		$locationProvider.html5Mode(true);

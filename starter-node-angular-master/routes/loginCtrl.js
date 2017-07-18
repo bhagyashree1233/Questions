@@ -8,7 +8,7 @@ loginCtrl.prototype={
  var loginReq=req.body
 console.log(loginReq)
   if(loginReq.userId=="admin"&&loginReq.pwd=="12345"){
-   
+   res.send('/admin');
   }else if(loginReq.userId=="questions"&&loginReq.pwd=="12345"){
     res.send('/question');
   }else if(loginReq.userId=="user"&&loginReq.pwd=="12345"){

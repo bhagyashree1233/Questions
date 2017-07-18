@@ -9,9 +9,14 @@ angular.module('userCtrl', []).controller('userController', function($scope, ser
     $scope.pageSize=2;
     $scope.numberOfPages=2;
     console.log('Hi am in userCtrl');
-
-     $scope.findperticularquest = function() {
-        var promise = serviceDB.toServer({}, '/findPerticularQuestion')
+$scope.questionTyp={};
+$scope.viewQuestion=serviceDB.getData();
+console.log($scope.viewQuestion)
+   /* $scope.findperticularquest = function() {
+         $scope.questionTyp.questionType=$scope.simpleSelect;
+          console.log("Hai")
+         console.log( $scope.questionTyp)
+        var promise = serviceDB.toServer($scope.questionTyp, '/findPerticularQuestion')
         promise.then(function(res) {
             console.log(res.data);
             $scope.viewQuestion = res.data[0]
@@ -19,7 +24,7 @@ angular.module('userCtrl', []).controller('userController', function($scope, ser
             $scope.ques = {}
         }, function(err) {
         })
-    }
+    }*/
 
     $scope.findAllquest = function() {
         var promise = serviceDB.toServer({}, '/findQuestions')
@@ -60,15 +65,19 @@ angular.module('userCtrl', []).controller('userController', function($scope, ser
         })
     }
     $scope.questionTyp={};
+    $scope.simpleSelect="";
     $scope.findperticularquest = function() {
-         
          $scope.questionTyp.questionType=$scope.simpleSelect;
+         console.log($scope.questionTyp)
         var promise = serviceDB.toServer($scope.questionTyp, '/findPerticularQuestion')
         promise.then(function(res) {
             if(res.data.length>0){
           $scope.viewQuestion=res.data[0];
           console.log($scope.viewQuestion)
+          serviceDB.setData($scope.viewQuestion);
+          console.log(serviceDB.getData())
             $scope.ques = {}
+            $location.path('/question');
             }
         }, function(err) {
         })
