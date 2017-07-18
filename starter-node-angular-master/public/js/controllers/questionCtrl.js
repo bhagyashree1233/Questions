@@ -40,11 +40,23 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         newElement.remove();
    }
     $scope.submitQuestions = function() {
-       
-        if($scope.questionToSend==undefined||$scope.questionToSend==""){
-          return false;
-        }else if($scope.questionToSend.questions==undefined||$scope.questionToSend.questions==""){
-            return false;
+       if($scope.questType==undefined||$scope.questType==""){
+            console.log('Select Question Type')
+              return false;
+        }
+       else if ($scope.ques.length==0){
+ console.log('Enter Question')
+           return false;
+        }
+        else if($scope.ques.quest==undefined||$scope.ques.quest==""){
+            console.log('Enter Question')
+           return false;
+        }else if($scope.ques.ans==undefined||$scope.ques.ans==""){
+             console.log('Enter Answer')
+           return false;
+        }else if($scope.ques.rightAns==undefined||$scope.ques.rightAns==""){
+            console.log('Select Right Answer')
+              return false;
         }
          $scope.questionToSend['questionType']=$scope.questType;
         $scope.questionToSend.questions.push(angular.copy({
@@ -79,6 +91,24 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
     }
     $scope.next = function() {
         console.log($scope.ques);
+        if($scope.questType==undefined||$scope.questType==""){
+            console.log('Select Question Type')
+              return false;
+        }
+       else if ($scope.ques.length==0){
+ console.log('Enter Question')
+           return false;
+        }
+        else if($scope.ques.quest==undefined||$scope.ques.quest==""){
+            console.log('Enter Question')
+           return false;
+        }else if($scope.ques.ans==undefined||$scope.ques.ans==""){
+             console.log('Enter Answer')
+           return false;
+        }else if($scope.ques.rightAns==undefined||$scope.ques.rightAns==""){
+            console.log('Select Right Answer')
+              return false;
+        }
         $scope.questionToSend.questions.push(angular.copy({
             questions: $scope.ques.quest,
             options: $scope.ques.ans,
@@ -92,10 +122,10 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
          }, function(err) {
 
          })*/
-        $scope.addOpp = false;
+       /* $scope.addOpp = false;
         Count = 0;
         newElement = angular.element(document.querySelector('.Op'));
-        newElement.remove();
+        newElement.remove();*/
     }
     $scope.findAllquest = function() {
         var promise = serviceDB.toServer({}, '/findQuestions')

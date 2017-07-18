@@ -28,13 +28,13 @@
 
 
 <div class="container">
-  <select class="form-control" id="sel1" ng-model="simpleSelect">
+  <select class="form-control" id="sel1" ng-model="simpleSelect"ng-click="findperticularquest()">
         <option ng-repeat="question in listQuestionType " ng-model="questionType">{{question.type}}</option>
       </select>
-<div ng-repeat="question in viewQuestion" >
-    <div ng-repeat="i in question.questions"ng-if="question.questionType==simpleSelect">
-      <div>{{i.questions}}</div>
-       <div ng-repeat=" option in i.options" ><input type="radio"ng-value="option.opt" ng-model="i.userAnswer">{{option.opt}} </div>
+<div ng-repeat="quest in viewQuestion.questions" >  
+    <div >
+      <div>{{quest.questions}}</div>
+       <div ng-repeat=" option in quest.options" ><input ng-value="option.opt" type="radio" ng-model="quest.userAnswer"/>{{option.opt}} </div>
     </div>
   </div>
    <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">

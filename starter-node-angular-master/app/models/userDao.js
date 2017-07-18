@@ -9,14 +9,13 @@ userDao.prototype = {
     addUserAns: function(userAnswer, callback) {
         userAns.type=userAnswer.type;
         userAns.userId=userAnswer.userId;
-        userAns.question=userAnswer.questions.length;
+        userAns.question=userAnswer.questions.questions.length;
         console.log(userAnswer.questions.length);
           ansCount=0;      
-       for(var i=0;i<userAnswer.questions.length;i++ ){
-           if(userAnswer.questions[i].questions[0]!=undefined){
-            console.log(userAnswer.questions[i].questions[0].rightAnswer);
-          console.log(userAnswer.questions[i].questions[0].rightAnswer);  
-        if(userAnswer.questions[i].questions[0].rightAnswer==userAnswer.questions[i].questions[0].userAnswer){
+       for(var i=0;i<userAnswer.questions.questions.length;i++ ){
+           if(userAnswer.questions.questions[i]!=undefined){
+          console.log(userAnswer.questions.questions[i].rightAnswer);  
+        if(userAnswer.questions.questions[i].rightAnswer==userAnswer.questions.questions[i].userAnswer){
          ansCount++
          userAns.ansCount= ansCount;
      

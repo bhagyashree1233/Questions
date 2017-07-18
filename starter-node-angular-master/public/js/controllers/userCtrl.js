@@ -4,7 +4,7 @@ angular.module('userCtrl', []).controller('userController', function($scope, ser
     $scope.listQuestionType=[];
     $scope.user = {};
     $scope.questionType='';
-    $scope.user.questions=[];
+    $scope.user.questions={};
     $scope.currentPage=0;
     $scope.pageSize=2;
     $scope.numberOfPages=2;
@@ -14,7 +14,8 @@ angular.module('userCtrl', []).controller('userController', function($scope, ser
         var promise = serviceDB.toServer({}, '/findPerticularQuestion')
         promise.then(function(res) {
             console.log(res.data);
-            $scope.viewQuestion = res.data
+            $scope.viewQuestion = res.data[0]
+            console.log($scope.viewQuestion)
             $scope.ques = {}
         }, function(err) {
         })
@@ -24,16 +25,20 @@ angular.module('userCtrl', []).controller('userController', function($scope, ser
         var promise = serviceDB.toServer({}, '/findQuestions')
         promise.then(function(res) {
             console.log(res.data);
-            $scope.viewQuestion = res.data
+           // $scope.viewQuestion = res.data[0]
             $scope.ques = {}
         }, function(err) {
         })
     }
     var ansCount = 0
+    $scope.user.userAnswer="";
+    $scope.quest={};
+    $scope.quest.userAnswer=""
     $scope.findAllquest()
     $scope.submit = function() {
         $scope.user.userId='1001';
         $scope.user.questions=(angular.copy($scope.viewQuestion));
+        $scope.user.userAnswer=$scope.quest.userAnswer;
         $scope.user.type=$scope.simpleSelect;
        /* $scope.user.totalQuestions = $scope.viewQuestion.length;
         for (var i = 0; i < $scope.viewQuestion.length; i++) {
@@ -49,10 +54,23 @@ angular.module('userCtrl', []).controller('userController', function($scope, ser
         var promise = serviceDB.toServer($scope.user, '/addUserAnswers')
         promise.then(function(res) {
             console.log(res.data);
-            $scope.viewQuestion = res.data
             $scope.ques = {}
         }, function(err) {
 
+        })
+    }
+    $scope.questionTyp={};
+    $scope.findperticularquest = function() {
+         
+         $scope.questionTyp.questionType=$scope.simpleSelect;
+        var promise = serviceDB.toServer($scope.questionTyp, '/findPerticularQuestion')
+        promise.then(function(res) {
+            if(res.data.length>0){
+          $scope.viewQuestion=res.data[0];
+          console.log($scope.viewQuestion)
+            $scope.ques = {}
+            }
+        }, function(err) {
         })
     }
 
