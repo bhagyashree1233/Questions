@@ -7,9 +7,15 @@ questionCtrl.prototype={
  addQuestions:function(req,res){
  var self = this;
 var questions=req.body;
-console.log(questions)
 self.questionDao.addQuestions(questions,function(err,result){
-    console.log(result.insertedIds)
+    if(err){
+        console.log(err);
+        res.send({done:false,message:'unable to add questions'})
+    }else  if(result[0]._id!=undefined){
+        res.send({done:true,message:'questions added'});
+    }else{
+        res.send({done:false,message:'unable to add questions'}) 
+    }
 });
  
  },editQuestionType:function(req,res){
@@ -17,7 +23,14 @@ self.questionDao.addQuestions(questions,function(err,result){
 var questions=req.body;
 console.log(questions)
 self.questionDao.editQuestions(questions,function(err,result){
-    console.log(result.insertedIds)
+   if(err){
+        console.log(err);
+        res.send({done:false,message:'unable to add questions'})
+    }else  if(result[0]._id!=undefined){
+        res.send({done:true,message:'questions added'});
+    }else{
+        res.send({done:false,message:'unable to add questions'}) 
+    } 
 });
  
  },deleteQuestion:function(req,res){
@@ -34,7 +47,14 @@ self.questionDao.deleteQuestio(questions,function(err,result){
  console.log('QuestionType')
  console.log(questionType.type);
 self.questionDao.addQuestionTyp(questionType,function(err,result){
-    console.log(result.insertedIds);
+    if(err){
+        console.log(err);
+        res.send({done:false,message:'unable to add questions type'})
+    }else  if(result[0]._id!=undefined){
+        res.send({done:true,message:'questions type added'});
+    }else{
+        res.send({done:false,message:'unable to add questions type'}) 
+    }
 });
  
  },
@@ -43,7 +63,14 @@ self.questionDao.addQuestionTyp(questionType,function(err,result){
 var questions=req.body;
 console.log(questions)
 self.questionDao.findAllQuestionTyp(function(err,result){
-    res.send(result);
+    if(err){
+        res.send({done:false,message:'unable to get Question Type'});
+    }else if(result.length==0){
+     res.send({done:false,message:'No Records found'})
+    }else if(result.length>0){
+      res.send({done:true,message:'data found',data:result})   
+    }
+   
 });
  },
  findQuestions:function(req,res){
@@ -55,7 +82,13 @@ self.questionDao.findAllQuestionTyp(function(err,result){
       var self = this;
       var questionType=req.body;
   self.questionDao.findPertTypeQuestn(questionType,function(err,result){
-    res.send(result)
+   if(err){
+        res.send({done:false,message:'unable to get  Question'});
+    }else if(result.length==0){
+     res.send({done:false,message:'No Records found'})
+    }else if(result.length>0){
+      res.send({done:true,message:'data found',data:result})   
+    }
 });  
  }
 

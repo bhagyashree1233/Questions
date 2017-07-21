@@ -1,16 +1,28 @@
 <div class="container" >
-<div ng-repeat="quest in viewQuestion.questions" >  
-    <div >
-      <div>{{quest.questions}}</div>
-       <div ng-repeat=" option in quest.options" ><input ng-value="option.opt" type="radio" ng-model="quest.userAnswer"/>{{option.opt}} </div>
-    </div>
-  </div>
-   <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+    <div ng-if="toastMsg!=''">
+        <div class="alert alert-danger alert-dismissable" >
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>Failed!</strong> {{toastMsg}}
+</div>
+
+        </div>
+<div id="question">
+    <p>{{currentPage+1}}> {{currentQuestion.questions}}</p> 
+    <p ng-repeat="currQues in currentQuestion.options"><input ng-value="currQues.opt" type="radio" ng-model="questions[currentPage].userAnswer"/>{{currQues.opt}}</p>
+</div>
+<div id="questionSubmit">
+  <button type="button" class="btn btn-success" style="width:7vw" ng-if="currentPage >= numberOfPages-1" ng-click="submit()">Submit</button>
+</div>
+<div id="prevNext">
+  
+   <button class="btn btn-primary" style="width:7vw" ng-disabled="currentPage == 0" ng-click="previous(currentPage);currentPage=currentPage-1">
         Previous
     </button>
     {{currentPage+1}}/{{numberOfPages}}
-    <button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1">
+    <button class="btn btn-primary"  style="width:7vw" ng-disabled="currentPage >= numberOfPages-1" ng-click="next(currentPage);currentPage=currentPage+1">
         Next
     </button>
-  <button type="button" class="btn btn-success" ng-click="submit()">Submit</button>
+    
+    </div>
+  
 </div>

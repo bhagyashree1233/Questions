@@ -8,7 +8,14 @@ userCtrl.prototype={
   var self = this;
 var userAnswer=req.body;
 self.userDao.addUserAns(userAnswer,function(err,result){
-    console.log(result.insertedIds)
+   if(err){
+        console.log(err);
+        res.send({done:false,message:'unable to add user'})
+    }else  if(result[0]._id!=undefined){
+        res.send({done:true,message:'Added User Answers'});
+    }else{
+        res.send({done:false,message:'unable to add User Answers'}) 
+    }
 });
  
  },
@@ -16,8 +23,13 @@ self.userDao.addUserAns(userAnswer,function(err,result){
  var self = this;
  console.log('Hi have entered controller')
  self.userDao.findAllUserAnswer(function(err,result){
-      console.log(result)
-      res.send(result)
+     if(err){
+        res.send({done:false,message:'unable to get user answer'});
+    }else if(result.length==0){
+     res.send({done:false,message:'No Records found'})
+    }else if(result.length>0){
+      res.send({done:true,message:'data found',data:result})   
+    }
  });
  }
 }

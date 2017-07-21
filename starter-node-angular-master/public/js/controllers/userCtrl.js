@@ -1,4 +1,4 @@
-angular.module('userCtrl', []).controller('userController', function($scope, serviceDB) {
+angular.module('userCtrl', []).controller('userController', function($scope, serviceDB,$location) {
     $scope.viewQuestion = []
     $scope.viewQuestion.userAnswer = '';
     $scope.listQuestionType=[];
@@ -6,78 +6,83 @@ angular.module('userCtrl', []).controller('userController', function($scope, ser
     $scope.questionType='';
     $scope.user.questions={};
     $scope.currentPage=0;
-    $scope.pageSize=2;
-    $scope.numberOfPages=2;
-    console.log('Hi am in userCtrl');
-$scope.questionTyp={};
-$scope.viewQuestion=serviceDB.getData();
-console.log($scope.viewQuestion)
-   /* $scope.findperticularquest = function() {
-         $scope.questionTyp.questionType=$scope.simpleSelect;
-          console.log("Hai")
-         console.log( $scope.questionTyp)
-        var promise = serviceDB.toServer($scope.questionTyp, '/findPerticularQuestion')
-        promise.then(function(res) {
-            console.log(res.data);
-            $scope.viewQuestion = res.data[0]
-            console.log($scope.viewQuestion)
-            $scope.ques = {}
-        }, function(err) {
-        })
-    }*/
-
-    $scope.findAllquest = function() {
-        var promise = serviceDB.toServer({}, '/findQuestions')
-        promise.then(function(res) {
-            console.log(res.data);
-           // $scope.viewQuestion = res.data[0]
-            $scope.ques = {}
-        }, function(err) {
-        })
-    }
-    var ansCount = 0
+    $scope.questions=[];
+    $scope.currentQuestion={};
+    $scope.questionTyp={};
     $scope.user.userAnswer="";
     $scope.quest={};
     $scope.quest.userAnswer=""
-    $scope.findAllquest()
+    var ansCount = 0;
+    $scope.simpleSelect="";
+    $scope.toastMsg='';
+$scope.numberOfPages=0;
+    console.log('Hi am in userCtrl');
+    if((sessionStorage.getItem("questionObj"))!=undefined){
+        console.log('Hai')
+    var questionObj= JSON.parse(sessionStorage.getItem("questionObj"));
+   console.log(questionObj);
+ $scope.numberOfPages=questionObj.questions.length;
+ console.log($scope.numberOfPages);
+   $scope.questions=questionObj.questions;
+   $scope.currentQuestion=$scope.questions[0];
+   console.log($scope.currentQuestion)
+    }
+
+$scope.next=function(current){
+    console.log($scope.currentQuestion)
+var i = $scope.getIndex(current, 1);
+$scope.currentQuestion=$scope.questions[i];
+console.log($scope.currentQuestion);
+}
+$scope.previous=function(currentPage){
+ var i = $scope.getIndex(currentPage, -1);
+ $scope.currentQuestion=$scope.questions[i];
+console.log($scope.currentQuestion);
+} 
+$scope.getIndex = function(currentIndex, shift){
+        var len = $scope.questions.length;
+        return (((currentIndex + shift) + len) % len)
+    }
     $scope.submit = function() {
+        console.log($scope.questions)
+        console.log($scope.currentQuestion)
+   if(sessionStorage.getItem("questionObj")!=undefined){
+   var questionObj=JSON.parse(sessionStorage.getItem("questionObj"));
+   $scope.type=questionObj.type
+    }
         $scope.user.userId='1001';
-        $scope.user.questions=(angular.copy($scope.viewQuestion));
-        $scope.user.userAnswer=$scope.quest.userAnswer;
-        $scope.user.type=$scope.simpleSelect;
-       /* $scope.user.totalQuestions = $scope.viewQuestion.length;
-        for (var i = 0; i < $scope.viewQuestion.length; i++) {
-            if ($scope.viewQuestion[i].userAnswer == $scope.viewQuestion[i].rightAns) {
-                ansCount++;
-                console.log(ansCount)
-                console.log($scope.viewQuestion[i].userAnswer)
-            }
-        }
-        $scope.user.userCorrectAnser = ansCount;
-        $scope.user.userId = "1001";*/
+        $scope.user.questions=(angular.copy($scope.questions));
+        $scope.user.type=$scope.type;
         console.log($scope.user);
         var promise = serviceDB.toServer($scope.user, '/addUserAnswers')
         promise.then(function(res) {
+            $scope.user={};
             console.log(res.data);
             $scope.ques = {}
         }, function(err) {
 
         })
     }
-    $scope.questionTyp={};
-    $scope.simpleSelect="";
-    $scope.findperticularquest = function() {
-         $scope.questionTyp.questionType=$scope.simpleSelect;
+    
+    $scope.findperticularquest = function(type) {
+         $scope.questionTyp.questionType=type;
          console.log($scope.questionTyp)
+         
         var promise = serviceDB.toServer($scope.questionTyp, '/findPerticularQuestion')
         promise.then(function(res) {
-            if(res.data.length>0){
-          $scope.viewQuestion=res.data[0];
+            console.log(res);
+            if(res.data.done){
+                if(res.data.data.length>0){
+          $scope.viewQuestion=res.data.data[0];
+          $scope.viewQuestion.type=type;
           console.log($scope.viewQuestion)
-          serviceDB.setData($scope.viewQuestion);
-          console.log(serviceDB.getData())
+          sessionStorage.setItem("questionObj",JSON.stringify($scope.viewQuestion));
+          var questionObj= JSON.parse(sessionStorage.getItem("questionObj"));
+          $location.path('/instructions');
             $scope.ques = {}
-            $location.path('/question');
+            }
+            }else{
+         $scope.toastMsg=res.data.message;
             }
         }, function(err) {
         })
@@ -86,12 +91,21 @@ console.log($scope.viewQuestion)
 $scope.findAllQuestionType=function(){
       var promise = serviceDB.toServer({}, '/findQuestionType')
         promise.then(function(res) {
-            console.log(res.data);
-            $scope.listQuestionType = res.data
+            if(res.data.done){
+            $scope.listQuestionType = res.data.data
             $scope.ques = {}
+            }
         }, function(err) {
 
         })  
     }
     $scope.findAllQuestionType();
+$scope.instructions=function(type){
+     $scope.findperticularquest(type)
+    
+}
+$scope.startTest=function(){
+    
+     $location.path('/question'); 
+}
 })

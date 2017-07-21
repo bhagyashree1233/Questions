@@ -73,4 +73,28 @@ body { padding-top:30px; }
 .navbar-collapse .navbar-nav.navbar-right:last-child {
     margin-right: 0;
 }
+
+p#questionType:hover{
+color:red!important;
+
+}
+#questionType{
+  width:80%;
+  margin:auto;
+  border:1px solid pink;
+  text-align:center;
+font-family: "Times New Roman", Georgia, Serif;
+padding:1vh;
+}
+#question{
+  font-size:2.5vh;
+  line-height:5vh;
+   padding:5vh;
+}
+#questionSubmit{
+ margin:auto;
+ width:10vh;
+}
+#prevNext{
+  padding:5vh;
 }

@@ -12,7 +12,6 @@ questionDao.prototype = {
             } else {
                 db.collection("questionAndAnswer").insert(questions, function(err, result) {
                     if (err) {
-
                         console.log(err);
                         callback(err, null)
                     }
@@ -33,7 +32,6 @@ questionDao.prototype = {
             } else {
                 db.collection("questionType").insert(questionType ,function(err, result) {
                     if (err) {
-
                         console.log(err);
                         callback(err, null)
                     }
@@ -94,7 +92,10 @@ questionDao.prototype = {
  var simpleObj={};
  simpleObj.$push={};
  var oldObj={};
+ var rigAns={};
+ rigAns.$push={};
         MongoDBClient.connect(self.url, function(err, db) {
+            simpleObj.$push.rightAnswers=question.rightanswers;
            simpleObj.$push.questions= question.newQuestions;
            oldObj=question.oldQuestion;
            console.log('SimpleObj');

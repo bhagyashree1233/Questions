@@ -22,6 +22,12 @@ console.log('Hello');
 		.when('/question',{
 			templateUrl: 'views/question.html',
 			controller:"userController"
+		}).when('/addQuestion', {
+			templateUrl: 'views/addQuestions.html',
+			controller:"questionController"
+		}).when('/instructions',{
+templateUrl: 'views/instructions.html',
+controller:"userController"
 		})
 		;
 		$locationProvider.html5Mode(true);

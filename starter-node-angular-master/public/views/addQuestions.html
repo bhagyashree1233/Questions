@@ -1,5 +1,11 @@
 <div class="container">
     <div class="form-inline quesType">
+        <div ng-if="toastMsg!=''">
+        <div class="alert alert-success alert-dismissable" >
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>Success!</strong> {{toastMsg}}
+</div>
+        </div>
         <label for="text">Question Type:</label>
         <input type="text" class="form-control" ng-model="questionTyp.type" placeholder="Enter Question Type">
         <button type="submit" class="btn btn-default" ng-click="questionType()">Submit</button>
@@ -42,7 +48,7 @@
 
     </div>
     <div id="bttn">
-    <button class="btn Success" ng-click="next()">Next Question</button>
+    <button class="btn Success" ng-click="nextQuestion()">Next Question</button>
    <button class="btn Success" ng-click="submitQuestions()">Submit</button>
 </div>
 
@@ -55,5 +61,5 @@
 
 </div>
 </div>
- <button type="button" class="btn btn-primary">Primary</button>
+
 </div>
