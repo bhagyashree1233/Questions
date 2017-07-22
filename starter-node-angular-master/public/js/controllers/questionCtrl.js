@@ -64,15 +64,17 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         $scope.questionToSend.questions.push(angular.copy({
             questions: $scope.ques.quest,
             options: $scope.ques.ans,
+            rightAnswer:$scope.ques.rightAns
             //rightAnswer: $scope.ques.rightAns
         }));
-         $scope.questionToSend.rightAnswers.push(angular.copy({
-       rightAnswer: $scope.ques.rightAns
-        }));
-        if (questionId != undefined) {
+       /*  $scope.questionToSend.rightAnswers.push(angular.copy({
+       rightAnswer:$scope.ques.rightAns
+        }));*/
+        console.log(questionId)
+        if (questionId) {
             questionToSend.oldQuestion.questionType = $scope.questType;
             questionToSend.newQuestions.$each = $scope.questionToSend.questions;
-            questionToSend.rightanswers.$each =$scope.questionToSend.rightAnswers;
+           /* questionToSend.rightanswers.$each =$scope.questionToSend.rightAnswers;*/
             console.log(questionToSend)
             var promise = serviceDB.toServer(questionToSend, '/editQuestions')
             promise.then(function(res) {
@@ -87,8 +89,9 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
             var promise = serviceDB.toServer($scope.questionToSend, '/addQuestions')
             promise.then(function(res) {
                 console.log(res.data);
-                if(res.data.data){
+                if(res.data.done){
                 $scope.toastMsg= res.data.message;
+                questionId=true;
                 }
                 $scope.ques = {}
             }, function(err) {
@@ -120,11 +123,12 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         $scope.questionToSend.questions.push(angular.copy({
             questions: $scope.ques.quest,
             options: $scope.ques.ans,
+            rightAnswer: $scope.ques.rightAns
            // rightAnswer: $scope.ques.rightAns
         }));
-        $scope.questionToSend.rightAnswers.push(angular.copy({
+       /* $scope.questionToSend.rightAnswers.push(angular.copy({
        rightAnswer: $scope.ques.rightAns
-        }));
+        }));*/
         $scope.ques = {}
         /* var promise = serviceDB.toServer($scope.ques, '/addQuestions')
          promise.then(function(res) {
@@ -138,18 +142,21 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
          newElement = angular.element(document.querySelector('.Op'));
          newElement.remove();*/
     }
-    $scope.findAllquest = function() {
-        var promise = serviceDB.toServer({}, '/findQuestions')
+    $scope.findperquestAnswer = function() {
+        $scope.questionTyp.questionType = $scope.questType;
+        var promise = serviceDB.toServer( $scope.questionTyp, '/findQuestionAnswer')
         promise.then(function(res) {
             console.log(res.data);
-            $scope.viewQuestion = res.data
+            if(res.data.done){
+            $scope.questionView = res.data.data[0];
             $scope.ques = {}
+            }
         }, function(err) {
 
         })
 
     }
-    $scope.findAllquest();
+    
     $scope.questionType = function() {
         console.log($scope.questionTyp.type);
         $scope.quesType.push($scope.questionTyp.type);
@@ -188,11 +195,13 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         promise.then(function(res) {
             console.log(res.data.data.length);
             if (res.data.data.length > 0) {
-                questionId = res.data.data[0]._id;
+                questionId = true;
+                console.log(questionId)
                 $scope.questionView = res.data.data[0];
+                console.log($scope.questionView);
                 $scope.ques = {}
             }else{
-                questionId=undefined;
+                questionId=false;
                 $scope.questionView = res.data[0];
             }
         }, function(err) {})
@@ -204,11 +213,12 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         $scope.ques.ans = ques.options;
 
     }
-    $scope.deleteQues = function(ques) {
+    $scope.deleteQues = function(ques) { 
         console.log(ques)
-        $scope.deleteQuestion.questions = ques
+        $scope.deleteQuestion.questions=ques
+        $scope.deleteQuestion.questionType=$scope.questionView.questionType
         console.log($scope.deleteQuestion)
-        var promise = serviceDB.toServer($scope.deleteQues, '/deleteQuestion')
+        var promise = serviceDB.toServer($scope.deleteQuestion, '/deleteQuestion')
         promise.then(function(res) {
             console.log(res.data);
             $scope.ques = {}

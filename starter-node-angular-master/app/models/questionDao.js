@@ -52,27 +52,22 @@ questionDao.prototype = {
             } else {
                 db.collection("questionType").find({}).toArray(function(err, result) {
                     if (err) {
-
-
                         callback(err)
                     }
                     console.log(result);
                     db.close();
                     callback(null, result)
-
-
-
                 })
             }
         })
     },
-    findQuestions: function(callback) {
+    findQuestions: function(quesType,callback) {
         var self = this;
         MongoDBClient.connect(self.url, function(err, db) {
             if (err) {
                 callback(err, null);
             } else {
-                db.collection("questionAndAnswer").find({}).toArray(function(err, result) {
+                db.collection("questionAndAnswer").find(quesType).toArray(function(err, result) {
                     if (err) {
 
 
@@ -120,11 +115,12 @@ questionDao.prototype = {
     }
     ,deleteQuestio:function(question,callback){
               var self = this;
+              console.log(question)
         MongoDBClient.connect(self.url, function(err, db) {
             if (err) {
                 callback(err, null);
             } else {
-                db.collection("questionAndAnswer").deleteOne(question,true,function(err, result) {
+                db.collection("questionAndAnswer").update({questionType:question.questionType},{'$pull':{questions:[question.questions]}},function(err, result) {
                     if(err){
                   callback(err, null); 
                 }else{
@@ -142,18 +138,14 @@ questionDao.prototype = {
             if (err) {
                 callback(err, null);
             } else {
-                db.collection("questionAndAnswer").find(questionType).toArray(function(err, result) {
+                db.collection("questionAndAnswer").find(questionType,{ "questions.questions":1,"questions.options":1,questionType:1, _id: 0 }).toArray(function(err, result) {
                     if (err) {
-
-
-                        callback(err)
+                        callback(err,null)
                     }
+                    console.log('result');
                     console.log(result);
                     db.close();
                     callback(null, result)
-
-
-
                 })
             }
         })

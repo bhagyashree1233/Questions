@@ -12,7 +12,7 @@
     </div>
     <div class="form-group selectQuestionType">
       <label for="sel1">Select Question Type:</label>
-      <select class="form-control" id="sel1" ng-model="questType" ng-click="findperticularquest()">
+      <select class="form-control" id="sel1" ng-model="questType" ng-click="findperquestAnswer()">
         <option ng-repeat="questTyp in listQuestionType">{{questTyp.type}}</option>
       </select>
       </div>
@@ -53,10 +53,14 @@
 </div>
 
 
-   <ul style="margin:auto" ng-repeat=" ques in questionView.questions">{{$index+1}}>{{ques.questions}}
+   <ul style="margin:auto" ng-repeat=" ques in questionView.questions ">{{$index+1}}>{{ques.questions}}
+        
           <!-- <button class="btn Success" ng-click="editQues(ques)">Edit</button>
 <button class="btn Success" ng-click="deleteQues(ques)">delete</button>-->
         <div ng-repeat="ans in ques.options">{{$index+1}}){{ans.opt}}</div>
+        <button class="btn primary" ng-click="submitQuestions()">edit</button>
+            <button class="btn primary" ng-click="deleteQues(ques,ans)">delete</button>
+         
     </ul>
 
 </div>

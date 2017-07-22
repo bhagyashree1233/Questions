@@ -11,7 +11,7 @@ self.userDao.addUserAns(userAnswer,function(err,result){
    if(err){
         console.log(err);
         res.send({done:false,message:'unable to add user'})
-    }else  if(result[0]._id!=undefined){
+    }else  if(result){
         res.send({done:true,message:'Added User Answers'});
     }else{
         res.send({done:false,message:'unable to add User Answers'}) 
