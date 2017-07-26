@@ -82,7 +82,21 @@ questionDao.prototype = {
                 })
             }
         })
-    },editQuestions: function(question,callback) {
+    },editQuestion:function(question,callback){
+        var self = this;
+        console.log(question);
+ MongoDBClient.connect(self.url, function(err, db) {
+     if(err){
+         console.log(err);
+     }
+ db.collection("questionAndAnswer").update({questionType:question.questionType,'questions.questions':question.oldquestion},{ $set: {'questions.$.questions':question.quest,'questions.$.options':question.ans,'questions.$.rightAnswer':question.rightAns}},function(err, result) {
+    if(err){
+        console.log(err);
+    }
+}) 
+ })
+},
+    editQuestions: function(question,callback) {
  var self = this;
  var simpleObj={};
  simpleObj.$push={};
@@ -90,7 +104,6 @@ questionDao.prototype = {
  var rigAns={};
  rigAns.$push={};
         MongoDBClient.connect(self.url, function(err, db) {
-            simpleObj.$push.rightAnswers=question.rightanswers;
            simpleObj.$push.questions= question.newQuestions;
            oldObj=question.oldQuestion;
            console.log('SimpleObj');
@@ -120,7 +133,7 @@ questionDao.prototype = {
             if (err) {
                 callback(err, null);
             } else {
-                db.collection("questionAndAnswer").update({questionType:question.questionType},{'$pull':{questions:[question.questions]}},function(err, result) {
+                db.collection("questionAndAnswer").update({questionType:question.questionType},{'$pull':{questions:question.questions}},function(err, result) {
                     if(err){
                   callback(err, null); 
                 }else{

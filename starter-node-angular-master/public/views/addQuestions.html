@@ -22,47 +22,57 @@
                <b> Questions:</b>
             </div>
             <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3">
-                <!--<button class="btn Success bttn" ng-click="addOptions()">Add Options+</button>-->
+              <!--  <button class="btn Success bttn" ng-click="addOptions()">Add Options+</button>-->
             </div>
             <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3">
-                <button class="btn Success bttn" ng-click="addMoreOptions()">Add More Options</button>
+                <button class="btn Success bttn" ng-click="addMoreOptions($index)">Add More Options</button>
             </div>
             <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3">
                 <button class="btn Success bttn" ng-click="removeOptions()">Remove Options</button>
             </div>
-        </div>
         <input type="text" class="form-control" ng-model="ques.quest" placeholder="Enter Questions">
     </div>
-
-
-
     <div class=" Opp" ng-show="addOpp">
         <div class="form-group selectRightAns">
             <label>Select right Ans</label>
             <div class="form-inline">
-                <input type="radio" ng-model="ques.rightAns " value={{ques.ans[0].opt}}>
-                 <input type="text" class="form-control" ng-model="ques.ans[0].opt" placeholder="Enter Options">
+                <div ng-repeat="an in ques.ans" ng-if="editMode==true">
+                <input type="radio" ng-value="an.opt"ng-model="ques.rightAns" >
+                 <input type="text" class="form-control"  ng-model="an.opt" placeholder="Enter Options">
+           </div>
             </div>
         </div>
-
-
     </div>
+     
     <div id="bttn">
-    <button class="btn Success" ng-click="nextQuestion()">Next Question</button>
-   <button class="btn Success" ng-click="submitQuestions()">Submit</button>
+    <button class="btn Success" ng-click="nextQuestion()" ng-if="editMode==false">Next Question</button>
+   <button class="btn Success" ng-click="submitQuestions()" ng-if="editMode==false">Submit</button>
+   <button class="btn Success" ng-click="submitEditQuestions()" ng-if="editMode==true">Submit</button>
 </div>
-
-
-   <ul style="margin:auto" ng-repeat=" ques in questionView.questions ">{{$index+1}}>{{ques.questions}}
+   <!--<ul style="margin:auto" ng-repeat=" ques in questionView.questions ">{{$index+1}}>{{ques.questions}}
         
           <!-- <button class="btn Success" ng-click="editQues(ques)">Edit</button>
-<button class="btn Success" ng-click="deleteQues(ques)">delete</button>-->
+<button class="btn Success" ng-click="deleteQues(ques)">delete</button>
         <div ng-repeat="ans in ques.options">{{$index+1}}){{ans.opt}}</div>
-        <button class="btn primary" ng-click="submitQuestions()">edit</button>
+        <button class="btn primary" ng-click="editQues(ques)">edit</button>
             <button class="btn primary" ng-click="deleteQues(ques,ans)">delete</button>
-         
-    </ul>
-
+    </ul>-->
+<table class="table table-striped">
+    <tbody>
+      <tr style="margin:auto"  ng-repeat="ques in questionView.questions">
+       <td >
+            <div >
+            {{$index+1}}>{{ques.questions}}
+            <div ng-repeat="ans in ques.options">{{$index+1}}){{ans.opt}}</div>
+            <div style="width:20vh">
+            <button class="btn primary" ng-click="editQues(ques)" >edit</button>
+           <button class="btn primary" ng-click="deleteQues(ques,ans)">delete</button>
+           </div>
+            </div>
+       </td>
+      </tr>
+       </tbody>
+       </table>
 </div>
 </div>
 

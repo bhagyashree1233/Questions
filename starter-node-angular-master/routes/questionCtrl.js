@@ -18,7 +18,17 @@ self.questionDao.addQuestions(questions,function(err,result){
     }
 });
  
- },editQuestionType:function(req,res){
+ },
+editQuestio: function(req,res){
+     var self = this;
+var questions=req.body;
+self.questionDao.editQuestion(questions,function(err,result){
+    if(err){}
+    
+})
+},
+ 
+ editQuestionType:function(req,res){
  var self = this;
 var questions=req.body;
 console.log(questions)
@@ -39,7 +49,7 @@ var questions=req.body;
 console.log('questions');
 console.log(questions)
 self.questionDao.deleteQuestio(questions,function(err,result){
-    
+   // res.send(result);
 })
  },
  addQuestionType:function(req,res){
