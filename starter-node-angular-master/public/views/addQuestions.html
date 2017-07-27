@@ -25,29 +25,36 @@
               <!--  <button class="btn Success bttn" ng-click="addOptions()">Add Options+</button>-->
             </div>
             <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3">
-                <button class="btn Success bttn" ng-click="addMoreOptions($index)">Add More Options</button>
+               <!-- <button class="btn Success bttn" ng-click="addMoreOptions()">Add More Options</button>-->
             </div>
             <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3">
-                <button class="btn Success bttn" ng-click="removeOptions()">Remove Options</button>
+               <!-- <button class="btn Success bttn" ng-click="removeOptions()">Remove Options</button>-->
             </div>
-        <input type="text" class="form-control" ng-model="ques.quest" placeholder="Enter Questions">
+        <input type="text" class="form-control" ng-model="ques.questions" placeholder="Enter Questions">
     </div>
-    <div class=" Opp" ng-show="addOpp">
-        <div class="form-group selectRightAns">
-            <label>Select right Ans</label>
+    <div  ng-show="addOpp">
+        <div class="form-group">
+           
+             <button class="btn Success bttn"  ng-click="addMoreOptions($index)" ng-if="editMode==false">Add Option</button>
+             <button class="btn Success bttn" ng-click="removeOptions($index)"  ng-if="editMode==false">delete</button>
+           <div class=" Opp">  
             <div class="form-inline">
-                <div ng-repeat="an in ques.ans" ng-if="editMode==true">
-                <input type="radio" ng-value="an.opt"ng-model="ques.rightAns" >
-                 <input type="text" class="form-control"  ng-model="an.opt" placeholder="Enter Options">
+                <div ng-repeat="an in ques.options">
+               <input type="radio" ng-value="an.opt"ng-model="ques.rightAnswer" ng-if="editMode==true">
+                 <input type="text" class="form-control"  ng-model="an.opt" ng-if="editMode==true" placeholder="Enter Options">
+                 <button class="btn Success bttn" ng-show="$last" ng-click="addMoreOptions($index)"  ng-if="editMode==true">Add Option</button>
+                 <button class="btn Success bttn"  ng-show="$last" ng-click="removeOptions($index)"  ng-if="editMode==true">delete</button>
+           </div>
            </div>
             </div>
         </div>
+        
     </div>
-     
-    <div id="bttn">
+    <div id="bttn" >
     <button class="btn Success" ng-click="nextQuestion()" ng-if="editMode==false">Next Question</button>
    <button class="btn Success" ng-click="submitQuestions()" ng-if="editMode==false">Submit</button>
    <button class="btn Success" ng-click="submitEditQuestions()" ng-if="editMode==true">Submit</button>
+   <button class="btn Success" ng-click="Back()" ng-if="editMode==true">Back</button>
 </div>
    <!--<ul style="margin:auto" ng-repeat=" ques in questionView.questions ">{{$index+1}}>{{ques.questions}}
         
@@ -61,11 +68,16 @@
     <tbody>
       <tr style="margin:auto"  ng-repeat="ques in questionView.questions">
        <td >
-            <div >
+            <div  class="row">
+              <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6" >  
             {{$index+1}}>{{ques.questions}}
+            
             <div ng-repeat="ans in ques.options">{{$index+1}}){{ans.opt}}</div>
-            <div style="width:20vh">
+            </div>
+            <div style="width:20vh" class="col-sm-3 col-xs-3 col-md-3 col-lg-3" >
             <button class="btn primary" ng-click="editQues(ques)" >edit</button>
+            </div>
+            <div class="col-sm-3 col-xs-3 col-md-3 col-lg-3">
            <button class="btn primary" ng-click="deleteQues(ques,ans)">delete</button>
            </div>
             </div>

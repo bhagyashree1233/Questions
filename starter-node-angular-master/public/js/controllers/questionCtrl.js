@@ -31,41 +31,52 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         Count = 0
     }
 
-    $scope.addMoreOptions = function(index) {
-        console.log(index);
-        Count++;
-        console.log('add More Opp');
-        html = "<div class='form-inline Op'><input type='radio' ng-model='ques.rightAns' value={{ques.ans[$index+" + Count + "].opt}}><input type='text'class='form-control' ng-model='ques.ans[$index+" + Count + "].opt' placeholder='Enter Options'></div> </div>"
+    $scope.addMoreOptions = function(lastIndex) {
+        if(lastIndex>Count){
+        Count=lastIndex;  
+         Count++;
+        }else{
+          Count++;  
+        }
+        console.log(Count);
+       console.log('add More Opp');
+        html = "<div class='form-inline Op'><input type='radio' ng-model='ques.rightAnswer' ng-value='ques.options["+Count+"].opt'><input type='text'class='form-control' ng-model='ques.options["+Count+"].opt' placeholder='Enter Options'></div></div>"
         myElements = angular.element(document.querySelector('.Opp'));
         myElements.append($compile(html)($scope))
         //myElements.append("<div class='form-group'><label for='text'>Options:</label><input type='text'class='form-control' id='email' placeholder='Enter Options'></div><button class='btn Success' ng-click='addMoreOptions()'>Add More +</button> </div>");
     }
-    $scope.removeOptions = function() {
+    $scope.Back=function(){
+        $scope.editMode=false;
+        $scope.ques={};
+    }
+    $scope.removeOptions = function($index) {
+        console.log($index)
         newElement = angular.element(document.querySelector('.Op'));
         newElement.remove();
     }
     $scope.submitQuestions = function() {
+        console.log($scope.ques);
         if ($scope.questType == undefined || $scope.questType == "") {
             console.log('Select Question Type')
             return false;
         } else if ($scope.ques.length == 0) {
             console.log('Enter Question')
             return false;
-        } else if ($scope.ques.quest == undefined || $scope.ques.quest == "") {
+        } else if ($scope.ques.questions == undefined || $scope.ques.questions == "") {
             console.log('Enter Question')
             return false;
-        } else if ($scope.ques.ans == undefined || $scope.ques.ans == "") {
+        } else if ($scope.ques.options == undefined || $scope.ques.options == "") {
             console.log('Enter Answer')
             return false;
-        } else if ($scope.ques.rightAns == undefined || $scope.ques.rightAns == "") {
+        } else if ($scope.ques.rightAnswer == undefined || $scope.ques.rightAnswer== "") {
             console.log('Select Right Answer')
             return false;
         }
         $scope.questionToSend['questionType'] = $scope.questType;
         $scope.questionToSend.questions.push(angular.copy({
-            questions: $scope.ques.quest,
-            options: $scope.ques.ans,
-            rightAnswer:$scope.ques.rightAns
+            questions: $scope.ques.questions,
+            options: $scope.ques.options,
+            rightAnswer:$scope.ques.rightAnswer
             //rightAnswer: $scope.ques.rightAns
         }));
        /*  $scope.questionToSend.rightAnswers.push(angular.copy({
@@ -103,26 +114,27 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         }
     }
     $scope.submitEditQuestions=function(){
+        console.log($scope.ques);
          if ($scope.questType == undefined || $scope.questType == "") {
             console.log('Select Question Type')
             return false;
         } else if ($scope.ques.length == 0) {
             console.log('Enter Question')
             return false;
-        } else if ($scope.ques.quest == undefined || $scope.ques.quest == "") {
+        } else if ($scope.ques.questions  == undefined || $scope.ques.questions  == "") {
             console.log('Enter Question')
             return false;
-        } else if ($scope.ques.ans == undefined || $scope.ques.ans == "") {
+        } else if ($scope.ques.options == undefined || $scope.ques.options== "") {
             console.log('Enter Answer')
             return false;
-        } else if ($scope.ques.rightAns == undefined || $scope.ques.rightAns == "") {
+        } else if ($scope.ques.rightAnswer == undefined || $scope.ques.rightAnswer == "") {
             console.log('Select Right Answer')
             return false;
         }
            $scope.ques.oldquestion=oldQuestion;
            $scope.ques.questionType=$scope.questType;
-            console.log($scope.ques);
-           $scope.ques.ans =JSON.parse(angular.toJson($scope.ques.ans))
+            console.log($scope.ques.options);
+           $scope.ques.options=JSON.parse(angular.toJson($scope.ques.options))
            console.log($scope.ques);
             var promise = serviceDB.toServer($scope.ques, '/editQuestion')
             promise.then(function(res) {
@@ -143,13 +155,13 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         } else if ($scope.ques.length == 0) {
             console.log('Enter Question')
             return false;
-        } else if ($scope.ques.quest == undefined || $scope.ques.quest == "") {
+        } else if ($scope.ques.questions == undefined || $scope.ques.questions == "") {
             console.log('Enter Question')
             return false;
-        } else if ($scope.ques.ans == undefined || $scope.ques.ans == "") {
+        } else if ($scope.ques.options == undefined || $scope.ques.options == "") {
             console.log('Enter Answer')
             return false;
-        } else if ($scope.ques.rightAns == undefined || $scope.ques.rightAns == "") {
+        } else if ($scope.ques.rightAnswer == undefined || $scope.ques.rightAnswer == "") {
             console.log('Select Right Answer')
             return false;
         }
@@ -183,8 +195,11 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
             console.log(res.data);
             if(res.data.done && res.data.data!=undefined){
             $scope.questionView = res.data.data[0];
+            console.log($scope.questionView);
             $scope.ques = {}
             questionId=true;
+            }else{
+              $scope.questionView ={} ; 
             }
         }, function(err) {
 
@@ -243,11 +258,10 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
     }
     var oldQuestion='';
     $scope.editQues = function(ques) {
-        $scope.editMode=true;
         console.log(ques);
-        $scope.ques.quest = ques.questions;
-      $scope.ques.ans = ques.options;
-     oldQuestion=ques.questions
+        $scope.editMode=true;
+     $scope.ques = ques;
+     
     }
     $scope.deleteQues = function(ques) { 
         console.log(ques)
