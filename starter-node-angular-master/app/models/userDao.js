@@ -24,53 +24,55 @@ userDao.prototype = {
         MongoDBClient.connect(self.url, function(err, db) {
             if (err) {
                 callback(err, null);
-            }
-            db.collection("questionAndAnswer").find(userQuestionType, {
+            }else{
+            db.collection("questionAndAnswer").find(userQuestionType,{
                 questions: 1,
                 _id: 0
             }).toArray(function(err, result) {
                 if (err) {
+                    db.close();
                     callback(err, null)
-                }
-                console.log('Result')
-                console.log(result[0]);
-                for (var i = 0; i < userAnswer.questions.length; i++) {
-
+                }else{
+                     
+                    for (var i = 0; i < userAnswer.questions.length; i++) {
                     if (userAnswer.questions[i].userAnswer == undefined) {
                         console.log('userAnswer Udefined')
                     } else if (result[0].questions[i].rightAnswer == userAnswer.questions[i].userAnswer) {
                         ansCount++
                     }
-
+                }
                 }
                 userAns.ansCount = ansCount;
                 console.log(userAns);
                 db.collection("admin").insert(userAns, function(err, result) {
                     if (err) {
-                        console.log(err);
-                        callback(err, null)
-                    }
+                       db.close();
+                       callback(err, null);
+                    }else{
                     db.close();
                     callback(null, result)
+                    }
                 })
             })
-
+            }
         })
+        
     },
-    findAllUserAnswer: function(callback) {
+    findAllUserAnswer: function(callback){
         var self = this;
         console.log('Hi am in dao layer')
         MongoDBClient.connect(self.url, function(err, db) {
             if (err) {
                 callback(err, null);
             } else {
-                db.collection("admin").find({}).toArray(function(err, result) {
+                db.collection("admin").aggregate([{$group:{_id:{type:"$type",userId:"$userId"},totalQuestions: {$sum:"$question"},totalAnswers:{$sum:"$ansCount"},Attended:{$sum:1},userId:"$userId"}}],function(err, result) {
                     if (err) {
-                        callback(err, null)
-                    }
-                    console.log(result);
+                     db.close();
+                     callback(err, null)
+                    }else{
                     db.close();
                     callback(null, result)
+                    }
                 })
             }
         })

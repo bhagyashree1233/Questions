@@ -10,6 +10,7 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
     $scope.viewQuestion = []
     $scope.ques = {};
     $scope.ques.ans = [];
+    $scope.ques.options=[];
     $scope.questType = '';
     var questionToSend = {};
     $scope.questionView = {};
@@ -38,21 +39,24 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         }else{
           Count++;  
         }
-        console.log(Count);
-       console.log('add More Opp');
-        html = "<div class='form-inline Op'><input type='radio' ng-model='ques.rightAnswer' ng-value='ques.options["+Count+"].opt'><input type='text'class='form-control' ng-model='ques.options["+Count+"].opt' placeholder='Enter Options'></div></div>"
-        myElements = angular.element(document.querySelector('.Opp'));
-        myElements.append($compile(html)($scope))
-        //myElements.append("<div class='form-group'><label for='text'>Options:</label><input type='text'class='form-control' id='email' placeholder='Enter Options'></div><button class='btn Success' ng-click='addMoreOptions()'>Add More +</button> </div>");
-    }
+       if($scope.ques.options!=undefined){
+       var newOption=$scope.ques.options.length+1;
+       $scope.ques.options.push({});
+    }else{
+        $scope.ques.options=[];
+        var newOption=$scope.ques.options.length+1;
+         $scope.ques.options.push({});  
+         console.log($scope.ques);
+       }
+ }
     $scope.Back=function(){
         $scope.editMode=false;
         $scope.ques={};
     }
     $scope.removeOptions = function($index) {
-        console.log($index)
-        newElement = angular.element(document.querySelector('.Op'));
-        newElement.remove();
+      var lastItem=$scope.ques.options.length-1;
+      $scope.ques.options.splice(lastItem);
+
     }
     $scope.submitQuestions = function() {
         console.log($scope.ques);
@@ -72,6 +76,7 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
             console.log('Select Right Answer')
             return false;
         }
+        console.log($scope.questionToSend);
         $scope.questionToSend['questionType'] = $scope.questType;
         $scope.questionToSend.questions.push(angular.copy({
             questions: $scope.ques.questions,
@@ -82,6 +87,7 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
        /*  $scope.questionToSend.rightAnswers.push(angular.copy({
        rightAnswer:$scope.ques.rightAns
         }));*/
+        console.log($scope.questionToSend);
         console.log(questionId)
         if (questionId) {
             questionToSend.oldQuestion.questionType = $scope.questType;
@@ -166,11 +172,12 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
             return false;
         }
         $scope.questionToSend.questions.push(angular.copy({
-            questions: $scope.ques.quest,
-            options: $scope.ques.ans,
-            rightAnswer: $scope.ques.rightAns
+            questions: $scope.ques.questions,
+            options: $scope.ques.options,
+            rightAnswer: $scope.ques.rightAnswer
            // rightAnswer: $scope.ques.rightAns
         }));
+        console.log($scope.questionToSend);
        /* $scope.questionToSend.rightAnswers.push(angular.copy({
        rightAnswer: $scope.ques.rightAns
         }));*/
@@ -261,7 +268,7 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         console.log(ques);
         $scope.editMode=true;
      $scope.ques = ques;
-     
+     oldQuestion=ques.questions;
     }
     $scope.deleteQues = function(ques) { 
         console.log(ques)

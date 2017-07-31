@@ -27,7 +27,6 @@ self.questionDao.editQuestion(questions,function(err,result){
     
 })
 },
- 
  editQuestionType:function(req,res){
  var self = this;
 var questions=req.body;
@@ -58,6 +57,7 @@ self.questionDao.deleteQuestio(questions,function(err,result){
  console.log('QuestionType')
  console.log(questionType.type);
 self.questionDao.addQuestionTyp(questionType,function(err,result){
+    console.log(result);
     if(err){
         console.log(err);
         res.send({done:false,message:'unable to add questions type'})

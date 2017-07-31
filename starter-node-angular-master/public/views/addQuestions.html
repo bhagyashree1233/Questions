@@ -34,19 +34,20 @@
     </div>
     <div  ng-show="addOpp">
         <div class="form-group">
-           
-             <button class="btn Success bttn"  ng-click="addMoreOptions($index)" ng-if="editMode==false">Add Option</button>
-             <button class="btn Success bttn" ng-click="removeOptions($index)"  ng-if="editMode==false">delete</button>
+             
+            <!-- <button class="btn Success bttn" ng-click="removeOptions($index)"  ng-if="editMode==false">delete</button>-->
            <div class=" Opp">  
             <div class="form-inline">
                 <div ng-repeat="an in ques.options">
-               <input type="radio" ng-value="an.opt"ng-model="ques.rightAnswer" ng-if="editMode==true">
-                 <input type="text" class="form-control"  ng-model="an.opt" ng-if="editMode==true" placeholder="Enter Options">
-                 <button class="btn Success bttn" ng-show="$last" ng-click="addMoreOptions($index)"  ng-if="editMode==true">Add Option</button>
-                 <button class="btn Success bttn"  ng-show="$last" ng-click="removeOptions($index)"  ng-if="editMode==true">delete</button>
+               <input type="radio" ng-value="an.opt"ng-model="ques.rightAnswer" >
+                 <input type="text" class="form-control"  ng-model="an.opt"  placeholder="Enter Options">
+                <!-- <button class="btn Success bttn"  ng-click="addMoreOptions($index)"  >Add Option</button>-->
+                 <button class="btn Success bttn"  ng-show="$last" ng-click="removeOptions($index)" >delete</button>
            </div>
            </div>
+           <button class="btn Success bttn"  ng-click="addMoreOptions($index)">Add Option</button>
             </div>
+
         </div>
         
     </div>

@@ -24,10 +24,8 @@ self.userDao.addUserAns(userAnswer,function(err,result){
  console.log('Hi have entered controller')
  self.userDao.findAllUserAnswer(function(err,result){
      if(err){
-        res.send({done:false,message:'unable to get user answer'});
-    }else if(result.length==0){
-     res.send({done:false,message:'No Records found'})
-    }else if(result.length>0){
+        res.send({done:false,message:'unable to get user answer'})
+    }else{
       res.send({done:true,message:'data found',data:result})   
     }
  });

@@ -9,12 +9,10 @@ loginDAO.prototype = {
         var self = this;
         MongoDBUtils.getOrCreateDatabase(self.url, function(err, result) {
             if (err) {
-                console.log(err)
-                callback(err, "");
-            }
-            console.log('Hi  in loginDAO')
-            callback(null, result);
-
+                callback(err,null);
+            }else{
+            callback(null,result);
+}
         })
     }
 }

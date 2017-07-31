@@ -13,7 +13,6 @@ var MongoDBUtils = {
                     if (err) throw err;
                     console.log("Table created!" + tabelName);
                     callback(null, "created");
-
                 })
             }
             tabel("login");

@@ -89,7 +89,7 @@ questionDao.prototype = {
      if(err){
          console.log(err);
      }
- db.collection("questionAndAnswer").update({questionType:question.questionType,'questions.questions':question.oldquestion},{ $set: {'questions.$.questions':question.quest,'questions.$.options':question.ans,'questions.$.rightAnswer':question.rightAns}},function(err, result) {
+ db.collection("questionAndAnswer").update({questionType:question.questionType,'questions.questions':question.oldquestion},{ $set: {'questions.$.questions':question.questions,'questions.$.options':question.options,'questions.$.rightAnswer':question.rightAnswer}},function(err, result) {
     if(err){
         console.log(err);
     }

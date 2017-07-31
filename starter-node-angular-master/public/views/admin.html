@@ -6,14 +6,17 @@
         <th>Total Correct Answers:</th>
         <th>UserId:</th>
         <th>Question Type</th>
+        <th>Attended</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="ques in viewQuestion">
-        <td>{{ques.question}}</td>
-        <td>{{ques.ansCount}}</td>
-        <td>{{ques.userId}}</td>
-         <td>{{ques.type}}</td>
+        <td>{{ques.totalQuestions}}</td>
+        <td>{{ques.totalAnswers}}</td>
+        <td>{{ques._id.userId}}</td>
+         <td>{{ques._id.type}}</td>
+         <td>{{ques.Attended}}</td>
+         
       </tr>
       </tbody>
        </table>
