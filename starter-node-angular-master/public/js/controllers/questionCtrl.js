@@ -1,4 +1,4 @@
-angular.module('qstCtrl', []).controller('questionController', function($scope, $compile, serviceDB) {
+angular.module('qstCtrl', []).controller('questionController', function($scope,$compile, serviceDB) {
     $scope.addOpp = true;
     $scope.questionToSend = {};
     $scope.questionToSend.questions = [];
@@ -278,7 +278,11 @@ angular.module('qstCtrl', []).controller('questionController', function($scope, 
         var promise = serviceDB.toServer($scope.deleteQuestion, '/deleteQuestion')
         promise.then(function(res) {
             console.log(res.data);
+            if(res.data.done){
+            toastr.info(res.data.message)
             $scope.ques = {}
+            $scope.findperquestAnswer();
+            }
         }, function(err) {
 
         })

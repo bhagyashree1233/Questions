@@ -12,12 +12,13 @@ questionDao.prototype = {
             } else {
                 db.collection("questionAndAnswer").insert(questions, function(err, result) {
                     if (err) {
-                        console.log(err);
-                        callback(err, null)
-                    }
+                     db.close();
+                     callback(err, null)
+                    }else{
                     db.close();
                     console.log(result);
                     callback(null, result)
+                    }
                 })
 
             }
@@ -32,12 +33,12 @@ questionDao.prototype = {
             } else {
                 db.collection("questionType").insert(questionType ,function(err, result) {
                     if (err) {
-                        console.log(err);
-                        callback(err, null)
-                    }
+                   db.close();
+                   callback(err, null)
+                    }else{
                     db.close();
-                    console.log(result);
                     callback(null, result)
+                    }
                 })
 
             }
@@ -52,11 +53,12 @@ questionDao.prototype = {
             } else {
                 db.collection("questionType").find({}).toArray(function(err, result) {
                     if (err) {
-                        callback(err)
-                    }
-                    console.log(result);
+                      db.close();  
+                    callback(err)
+                    }else{
                     db.close();
                     callback(null, result)
+                    }
                 })
             }
         })
@@ -69,15 +71,12 @@ questionDao.prototype = {
             } else {
                 db.collection("questionAndAnswer").find(quesType).toArray(function(err, result) {
                     if (err) {
-
-
+                        db.close();
                         callback(err)
-                    }
-                    console.log(result);
+                    }else{
                     db.close();
                     callback(null, result)
-
-
+}
 
                 })
             }
@@ -91,7 +90,11 @@ questionDao.prototype = {
      }
  db.collection("questionAndAnswer").update({questionType:question.questionType,'questions.questions':question.oldquestion},{ $set: {'questions.$.questions':question.questions,'questions.$.options':question.options,'questions.$.rightAnswer':question.rightAnswer}},function(err, result) {
     if(err){
-        console.log(err);
+     db.close();   
+      callback(err,null)
+    }else{
+     db.close();   
+     callback(null, result)   
     }
 }) 
  })
@@ -115,13 +118,12 @@ questionDao.prototype = {
 
                 db.collection("questionAndAnswer").update(oldObj,simpleObj,function(err, result) {
                     if (err) {
-
-
-                        callback(err)
-                    }
-                    console.log(result);
+                     db.close();
+                     callback(err, null)
+                    }else{
                     db.close();
                     callback(null, result)
+                    }
                 })
             }
         })
@@ -135,11 +137,11 @@ questionDao.prototype = {
             } else {
                 db.collection("questionAndAnswer").update({questionType:question.questionType},{'$pull':{questions:question.questions}},function(err, result) {
                     if(err){
+                  db.close();      
                   callback(err, null); 
                 }else{
-                    console.log(result)
+                    db.close();
                    callback(null, result);
-                      
                   } 
                 })
             }})
@@ -153,12 +155,12 @@ questionDao.prototype = {
             } else {
                 db.collection("questionAndAnswer").find(questionType,{ "questions.questions":1,"questions.options":1,questionType:1, _id: 0 }).toArray(function(err, result) {
                     if (err) {
-                        callback(err,null)
-                    }
-                    console.log('result');
-                    console.log(result);
+                  db.close();      
+                   callback(err,null)
+                    }else{
                     db.close();
                     callback(null, result)
+                    }
                 })
             }
         })

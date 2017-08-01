@@ -32,6 +32,7 @@ module.exports = function(app) {
     app.post('/editQuestions',questionCtrl.editQuestionType.bind(questionCtrl))
     app.post('/deleteQuestion',questionCtrl.deleteQuestion.bind(questionCtrl))
     app.post('/editQuestion',questionCtrl.editQuestio.bind(questionCtrl))
+    app.post('/addUser',userCtrl.addUser.bind(userCtrl))
     app.get('*', function(req, res) {
         res.sendfile('./public/index.html');
     });

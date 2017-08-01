@@ -2,24 +2,32 @@ var MongoDBClient = require('mongodb').MongoClient;
 var MongoDBUtils = {
     getOrCreateDatabase: function(url, callback) {
 
-        MongoDBClient.connect(url, function(err, db) {
+            var tabel = function(tabelName) {
+             MongoDBClient.connect(url, function(err, db) {
             console.log('Hi am inside client')
             if (err) {
-                console.log(err)
-            }
-            var tabel = function(tabelName) {
+             callback(err, null);
+            }else{
                 console.log('Hi am inside table')
                 db.createCollection(tabelName, function(err, res) {
-                    if (err) throw err;
+                    if (err){
+                   db.close();     
+                  callback(err, null);
+                    }else{
                     console.log("Table created!" + tabelName);
+                     db.close();
                     callback(null, "created");
+                                      } 
                 })
             }
-            tabel("login");
-            tabel("questionAndAnswer");
-            tabel("admin");
-            tabel("questionType");
-        });
+           
+            });
+        }
+          tabel("login");
+           tabel("questionAndAnswer");
+           tabel("admin");
+           tabel("questionType");
+        
     }
 }
 module.exports = MongoDBUtils;

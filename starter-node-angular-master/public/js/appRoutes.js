@@ -28,6 +28,9 @@ console.log('Hello');
 		}).when('/instructions',{
 templateUrl: 'views/instructions.html',
 controller:"userController"
+		}).when('/createUser',{
+templateUrl: 'views/createUser.html',
+controller:"loginController"
 		})
 		;
 		$locationProvider.html5Mode(true);

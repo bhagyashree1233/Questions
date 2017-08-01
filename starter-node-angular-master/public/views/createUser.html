@@ -1,0 +1,26 @@
+<div class="container" style="font-family:Times New Roman">
+<h3 style="font-family:Times New Roman" >Create User:</h3>
+<div class="form-group">
+      
+    <div class="form-group">
+      <label for="Name">Name:</label>
+      <input type="text" class="form-control" ng-model="user.name" placeholder="Enter Name" name="name">
+    </div>
+    <div class="form-group">
+      <label for="pN">Phone Number:</label>
+      <input type="text" class="form-control" ng-model="user.phNumber" placeholder="Enter Phone Number" name="Phone Number">
+    </div>
+     <div class="form-group">
+      <label for="pN">Email:</label>
+      <input type="email" class="form-control" ng-model="user.email" placeholder="Enter Email" name="email">
+    </div>
+    <div class="form-group">
+      <label for="pN">Password</label>
+      <input type="password" class="form-control" ng-model="user.password" placeholder="Enter password" name="password">
+    </div>
+    <div class="form-group">
+      <label for="pN">Confirm Password:</label>
+      <input type="password" class="form-control" ng-model="user.confirmPassword" placeholder="Confirm password" name="password">
+    </div>
+    <button type="submit" class="btn btn-success" style="right:0;" ng-click="addUser()">Submit</button>
+</div>

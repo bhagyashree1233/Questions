@@ -58,6 +58,10 @@ $scope.getIndex = function(currentIndex, shift){
         promise.then(function(res) {
             $scope.user={};
             console.log(res.data);
+            if(res.data.done){
+                toastr.info(res.data.message)
+            }
+            $location.path('/');
             $scope.ques = {}
         }, function(err) {
 

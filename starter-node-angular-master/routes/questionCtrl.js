@@ -11,7 +11,7 @@ self.questionDao.addQuestions(questions,function(err,result){
     if(err){
         console.log(err);
         res.send({done:false,message:'unable to add questions'})
-    }else  if(result){
+    }else  if(result[0]._id!=undefined){
         res.send({done:true,message:'questions added'});
     }else{
         res.send({done:false,message:'unable to add questions'}) 
@@ -23,8 +23,12 @@ editQuestio: function(req,res){
      var self = this;
 var questions=req.body;
 self.questionDao.editQuestion(questions,function(err,result){
-    if(err){}
-    
+    if(err){
+        console.log(err);
+        res.send({done:false,message:'unable to add questions'})
+    }else{
+        res.send({done:false,message:'edited question'}) 
+    } 
 })
 },
  editQuestionType:function(req,res){
@@ -35,10 +39,8 @@ self.questionDao.editQuestions(questions,function(err,result){
    if(err){
         console.log(err);
         res.send({done:false,message:'unable to add questions'})
-    }else  if(result){
-        res.send({done:true,message:'questions added'});
     }else{
-        res.send({done:false,message:'unable to add questions'}) 
+        res.send({done:false,message:'edited question'}) 
     } 
 });
  
@@ -48,20 +50,22 @@ var questions=req.body;
 console.log('questions');
 console.log(questions)
 self.questionDao.deleteQuestio(questions,function(err,result){
-   // res.send(result);
+   if(err){
+    res.send({done:false,message:'unable to delete'})    
+   }else{
+     res.send({done:true,message:'delete succefully',data:result})   
+   }
 })
  },
  addQuestionType:function(req,res){
  var self = this;
  var questionType=req.body;
- console.log('QuestionType')
- console.log(questionType.type);
-self.questionDao.addQuestionTyp(questionType,function(err,result){
-    console.log(result);
+ self.questionDao.addQuestionTyp(questionType,function(err,result){
+     console.log('Add QuestionType');
     if(err){
         console.log(err);
         res.send({done:false,message:'unable to add questions type'})
-    }else  if(result){
+    }else  if(result[0]._id!=undefined){
         res.send({done:true,message:'questions type added'});
     }else{
         res.send({done:false,message:'unable to add questions type'}) 
@@ -100,7 +104,6 @@ self.questionDao.findAllQuestionTyp(function(err,result){
  },findPertTypeQuestion:function(req,res){
       var self = this;
       var questionType=req.body;
-      console.log(questionType);
   self.questionDao.findPertTypeQuestn(questionType,function(err,result){
    if(err){
         res.send({done:false,message:'unable to get  Question'});
@@ -112,6 +115,5 @@ self.questionDao.findAllQuestionTyp(function(err,result){
     }
 });  
  }
-
 }
 module.exports=questionCtrl;
